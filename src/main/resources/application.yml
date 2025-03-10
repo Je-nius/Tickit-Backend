@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: tickit
+
+server:
+  port: 8080
+
+
