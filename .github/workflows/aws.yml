@@ -37,8 +37,8 @@ env:
   ECS_PROD_SERVICE: tickit-prod-service                 # set this to your Amazon ECS service name
   ECS_STAG_SERVICE: tickit-stag-service 
   ECS_CLUSTER: tickit-cluster                 # set this to your Amazon ECS cluster name
-  ECS_TASK_DEFINITION: tickit-family-revision.json # set this to the path to your Amazon ECS task definition
-                                               # file, e.g. .aws/task-definition.json
+  ECS_PROD_TASK_DEFINITION: tickit-prod-family-revision.json # set this to the path to your Amazon ECS task definition
+  ECS_STAG_TASK_DEFINITION: tickit-stag-family-revision.json # file, e.g. .aws/task-definition.json
   CONTAINER_NAME: tickit-container           # set this to the name of the container in the
                                                # containerDefinitions section of your task definition
 
@@ -84,9 +84,11 @@ jobs:
       run: |
         if [ "${GITHUB_REF##*/}" == "prod" ]; then
           echo "ECR_REPOSITORY=${{ env.ECR_PROD_REPOSITORY }}" >> $GITHUB_ENV
+          echo "ECS_TASK_DEFINITION=${{ env.ECS_PROD_TASK_DEFINITION }}" >> $GITHUB_ENV
           echo "ECS_SERVICE=${{ env.ECS_PROD_SERVICE }}" >> $GITHUB_ENV
         else
           echo "ECR_REPOSITORY=${{ env.ECR_STAG_REPOSITORY }}" >> $GITHUB_ENV
+          echo "ECS_TASK_DEFINITION=${{ env.ECS_STAG_TASK_DEFINITION }}" >> $GITHUB_ENV
           echo "ECS_SERVICE=${{ env.ECS_STAG_SERVICE }}" >> $GITHUB_ENV
         fi
 

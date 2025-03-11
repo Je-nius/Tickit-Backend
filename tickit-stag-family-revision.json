@@ -1,13 +1,13 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:ap-northeast-2:985736274381:task-definition/tickit-family:1",
+    "taskDefinitionArn": "arn:aws:ecs:ap-northeast-2:985736274381:task-definition/tickit-stag-family:2",
     "containerDefinitions": [
         {
-            "name": "tickit-container",
-            "image": "985736274381.dkr.ecr.ap-northeast-2.amazonaws.com",
+            "name": "tickit-stag-container",
+            "image": "985736274381.dkr.ecr.ap-northeast-2.amazonaws.com/tickit-stag:latest",
             "cpu": 0,
             "portMappings": [
                 {
-                    "name": "tickit-container-8080-port",
+                    "name": "tickit-stag-container-8080-port",
                     "containerPort": 8080,
                     "hostPort": 8080,
                     "protocol": "tcp",
@@ -15,7 +15,12 @@
                 }
             ],
             "essential": true,
-            "environment": [],
+            "environment": [
+                {
+                    "name": "SPRING_PROFILES_ACTIVE",
+                    "value": "stag"
+                }
+            ],
             "environmentFiles": [],
             "mountPoints": [],
             "volumesFrom": [],
@@ -23,7 +28,7 @@
             "logConfiguration": {
                 "logDriver": "awslogs",
                 "options": {
-                    "awslogs-group": "/ecs/tickit-family",
+                    "awslogs-group": "/ecs/tickit-stag-family",
                     "mode": "non-blocking",
                     "awslogs-create-group": "true",
                     "max-buffer-size": "25m",
@@ -35,10 +40,10 @@
             "systemControls": []
         }
     ],
-    "family": "tickit-family",
+    "family": "tickit-stag-family",
     "executionRoleArn": "arn:aws:iam::985736274381:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
-    "revision": 1,
+    "revision": 2,
     "volumes": [],
     "status": "ACTIVE",
     "requiresAttributes": [
@@ -49,10 +54,16 @@
             "name": "ecs.capability.execution-role-awslogs"
         },
         {
+            "name": "com.amazonaws.ecs.capability.ecr-auth"
+        },
+        {
             "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
         },
         {
             "name": "com.amazonaws.ecs.capability.docker-remote-api.1.28"
+        },
+        {
+            "name": "ecs.capability.execution-role-ecr-pull"
         },
         {
             "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
@@ -78,7 +89,7 @@
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
     },
-    "registeredAt": "2025-03-11T00:57:26.083Z",
+    "registeredAt": "2025-03-11T04:48:03.645Z",
     "registeredBy": "arn:aws:iam::985736274381:user/Administrator",
     "enableFaultInjection": false,
     "tags": []
