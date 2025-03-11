@@ -1,13 +1,13 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:ap-northeast-2:985736274381:task-definition/tickit-prod-family:2",
+    "taskDefinitionArn": "arn:aws:ecs:ap-northeast-2:985736274381:task-definition/tickit-prod-family:4",
     "containerDefinitions": [
         {
-            "name": "tickit-prod-container",
+            "name": "tickit-container",
             "image": "985736274381.dkr.ecr.ap-northeast-2.amazonaws.com/tickit:latest",
             "cpu": 0,
             "portMappings": [
                 {
-                    "name": "tickit-prod-container-8080-port",
+                    "name": "tickit-container-8080-tcp",
                     "containerPort": 8080,
                     "hostPort": 8080,
                     "protocol": "tcp",
@@ -43,7 +43,7 @@
     "family": "tickit-prod-family",
     "executionRoleArn": "arn:aws:iam::985736274381:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
-    "revision": 2,
+    "revision": 4,
     "volumes": [],
     "status": "ACTIVE",
     "requiresAttributes": [
@@ -89,7 +89,7 @@
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
     },
-    "registeredAt": "2025-03-11T04:47:26.002Z",
+    "registeredAt": "2025-03-11T05:56:37.051Z",
     "registeredBy": "arn:aws:iam::985736274381:user/Administrator",
     "enableFaultInjection": false,
     "tags": []

@@ -1,13 +1,13 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:ap-northeast-2:985736274381:task-definition/tickit-stag-family:2",
+    "taskDefinitionArn": "arn:aws:ecs:ap-northeast-2:985736274381:task-definition/tickit-stag-family:4",
     "containerDefinitions": [
         {
-            "name": "tickit-stag-container",
+            "name": "tickit-container",
             "image": "985736274381.dkr.ecr.ap-northeast-2.amazonaws.com/tickit-stag:latest",
             "cpu": 0,
             "portMappings": [
                 {
-                    "name": "tickit-stag-container-8080-port",
+                    "name": "tickit-container-8080-tcp",
                     "containerPort": 8080,
                     "hostPort": 8080,
                     "protocol": "tcp",
@@ -28,7 +28,7 @@
             "logConfiguration": {
                 "logDriver": "awslogs",
                 "options": {
-                    "awslogs-group": "/ecs/tickit-stag-family",
+                    "awslogs-group": "/ecs/tickit-prod-family",
                     "mode": "non-blocking",
                     "awslogs-create-group": "true",
                     "max-buffer-size": "25m",
@@ -43,7 +43,7 @@
     "family": "tickit-stag-family",
     "executionRoleArn": "arn:aws:iam::985736274381:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
-    "revision": 2,
+    "revision": 4,
     "volumes": [],
     "status": "ACTIVE",
     "requiresAttributes": [
@@ -89,7 +89,7 @@
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
     },
-    "registeredAt": "2025-03-11T04:48:03.645Z",
+    "registeredAt": "2025-03-11T05:57:01.691Z",
     "registeredBy": "arn:aws:iam::985736274381:user/Administrator",
     "enableFaultInjection": false,
     "tags": []
