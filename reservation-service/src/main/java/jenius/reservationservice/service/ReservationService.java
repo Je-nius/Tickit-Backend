@@ -3,7 +3,9 @@ package jenius.reservationservice.service;
 import jenius.commonexception.CustomException;
 import jenius.reservationservice.domain.Reservation;
 import jenius.reservationservice.domain.ReservationStatus;
+import jenius.reservationservice.dto.request.ReservationCancelRequestDto;
 import jenius.reservationservice.dto.request.ReservationCreateRequestDto;
+import jenius.reservationservice.dto.response.ReservationCancelResponseDto;
 import jenius.reservationservice.dto.response.ReservationCreateResponseDto;
 import jenius.reservationservice.exception.ReservationErrorCode;
 import jenius.reservationservice.repository.ReservationRepository;
@@ -48,7 +50,33 @@ public class ReservationService {
 //                performanceService.findPerformanceById(reservationCreateRequestDto.getPerformanceId());
 
         reservationRepository.save(reservation);
-        return ReservationCreateResponseDto.toDto("임시타이틀", reservation);
+        return ReservationCreateResponseDto.fromEntity("임시타이틀", reservation);
+    }
+
+    public ReservationCancelResponseDto cancelReservation(
+            Long userId, ReservationCancelRequestDto reservationCancelRequestDto
+    ) {
+        // TODO: 결제 서비스 추가 시, 결제 데이터 & 검증 필요
+
+        // 1. 예매 정보 조회
+        Reservation reservation = reservationRepository
+                .findReservationById(reservationCancelRequestDto.getReservationId())
+                .orElseThrow(() -> new CustomException(ReservationErrorCode.NOT_FOUND_RESERVATION));
+
+        // 2. 사용자 소유 검증
+        if (!reservation.getUserId().equals(userId)) {
+            throw new CustomException(ReservationErrorCode.ACCESS_DENIED_EXCEPTION);
+        }
+
+        // 3. 예매 상태 검증
+        if (reservation.getStatus().equals(ReservationStatus.CANCELED)) {
+            throw new CustomException(ReservationErrorCode.INVALID_RESERVATION_STATE);
+        }
+
+        // 4. 취소
+        reservation.cancel();
+
+        return ReservationCancelResponseDto.fromEntity(reservation);
     }
 
     private String generateUniqueReservationNumber() {

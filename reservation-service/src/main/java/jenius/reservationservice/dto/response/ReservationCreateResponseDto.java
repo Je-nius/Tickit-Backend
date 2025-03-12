@@ -20,7 +20,7 @@ public class ReservationCreateResponseDto {
     private ReservationStatus reservationStatus;
     private LocalDateTime reservationDate;
 
-    public static ReservationCreateResponseDto toDto(String performanceTitle, Reservation reservation) {
+    public static ReservationCreateResponseDto fromEntity(String performanceTitle, Reservation reservation) {
         return ReservationCreateResponseDto.builder()
                 .performanceTitle(performanceTitle)
                 .reservationNumber(reservation.getReservationNumber())
