@@ -1,13 +1,12 @@
 package jenius.reservationservice.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Reservation {
 
@@ -29,6 +28,14 @@ public class Reservation {
     private LocalDateTime cancelDate;
 
     private int quantity;
+
+    @Builder
+    public Reservation(Long userId, Long performanceId, String reservationNumber, int quantity) {
+        this.userId = userId;
+        this.performanceId = performanceId;
+        this.reservationNumber = reservationNumber;
+        this.quantity = quantity;
+    }
 
     public void cancel() {
         // TODO: 취소 불가 기간 생기면 검증 로직 추가
