@@ -1,3 +1,4 @@
-rootProject.name = 'Tickit-Backend'
+rootProject.name = 'tickit'
 
+include 'reservation-service'
 include 'tickit-api'
