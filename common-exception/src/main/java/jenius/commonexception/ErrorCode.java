@@ -1,4 +1,6 @@
-package jenius.global.errorCode;
+package jenius.commonexception;
+
+import org.springframework.http.HttpStatus;
 
 /**
  * 인터페이스를 통해
@@ -6,7 +8,7 @@ package jenius.global.errorCode;
  */
 public interface ErrorCode {
 
-    int getCode();
+    HttpStatus getHttpStatus();
     String getMessage();
 
 }

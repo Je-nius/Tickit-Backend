@@ -1,7 +1,6 @@
-package jenius.global;
+package jenius.commonexception;
 
 
-import jenius.global.errorCode.ErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
