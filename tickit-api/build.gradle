@@ -7,5 +7,6 @@ plugins {
 dependencies {
 	implementation project(':common-exception')
 	implementation project(':reservation-service')
+	implementation project(':performance-service')
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 }
