@@ -61,6 +61,7 @@ class ReservationServiceTest {
 
         Reservation reservation = Reservation.builder()
                 .userId(userId)
+                .status(ReservationStatus.RESERVED)
                 .build();
 
         // TODO: 결제 서비스가 추가 시, 결제 데이터도 필요
