@@ -10,7 +10,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @NoArgsConstructor
@@ -23,13 +24,17 @@ public class PerformanceInfo {
 
     private Long performanceId;
 
-    private LocalDateTime performanceDate;
+    private LocalDate performanceDate;
 
+    private LocalTime startTime;
+    
     private int availableSeats;
 
     @Builder
-    public PerformanceInfo(LocalDateTime performanceDate, int availableSeats) {
+    public PerformanceInfo(Long performanceId, LocalDate performanceDate, LocalTime startTime, int availableSeats) {
+        this.performanceId = performanceId;
         this.performanceDate = performanceDate;
+        this.startTime = startTime;
         this.availableSeats = availableSeats;
     }
 

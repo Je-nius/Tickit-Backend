@@ -2,13 +2,16 @@ package jenius.performanceservice.domain;
 
 import jakarta.persistence.*;
 import jenius.commonexception.CustomException;
-import jenius.performanceservice.dto.PerformanceUpdateRequestDto;
+import jenius.performanceservice.dto.request.PerformanceUpdateRequestDto;
 import jenius.performanceservice.exception.PerformanceErrorCode;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -45,6 +48,10 @@ public class Performance {
         this.location = location;
 
         validatePerformanceDate(startDate, endDate);
+    }
+
+    public long getDayOfPerformance() {
+        return ChronoUnit.DAYS.between(this.startDate, this.endDate) + 1;
     }
 
     public void validatePerformanceDate(LocalDate startDate, LocalDate endDate) {

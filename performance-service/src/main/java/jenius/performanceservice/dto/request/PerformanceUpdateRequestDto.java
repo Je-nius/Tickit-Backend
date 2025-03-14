@@ -1,8 +1,6 @@
-package jenius.performanceservice.dto;
+package jenius.performanceservice.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
 import jenius.performanceservice.domain.PerformanceGenre;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,29 +13,20 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PerformanceCreateRequestDto {
+public class PerformanceUpdateRequestDto {
 
-    @NotBlank
     private String title;
 
-    @NotBlank
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 
-    @NotBlank
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
-    @Positive
-    private int runningTime; // 분 단위
+    private int runningTime;
 
-    @NotBlank
     private PerformanceGenre genre;
 
-    @NotBlank
     private String location;
-
-    @Positive
-    private int availableSeats;
 
 }
