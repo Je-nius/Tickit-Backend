@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -54,9 +52,10 @@ public class Performance {
         return ChronoUnit.DAYS.between(this.startDate, this.endDate) + 1;
     }
 
+    // 시작 날짜가 종료 날짜보다 우선이어야 함
     public void validatePerformanceDate(LocalDate startDate, LocalDate endDate) {
         if (startDate.isAfter(endDate)) {
-            throw new CustomException(PerformanceErrorCode.INVALID_PERFORMANCE_DATE);
+            throw new CustomException(PerformanceErrorCode.INVALID_PERFORMANCE_PERIOD);
         }
     }
 
@@ -71,5 +70,4 @@ public class Performance {
 
         validatePerformanceDate(this.startDate, this.endDate);
     }
-
 }

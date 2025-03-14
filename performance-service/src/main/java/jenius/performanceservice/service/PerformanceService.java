@@ -1,16 +1,16 @@
 package jenius.performanceservice.service;
 
+import jenius.commonexception.CustomException;
 import jenius.performanceservice.domain.Performance;
 import jenius.performanceservice.domain.PerformanceInfo;
 import jenius.performanceservice.dto.request.PerformanceCreateRequestDto;
-import jenius.performanceservice.dto.request.PerformanceInfoDto;
 import jenius.performanceservice.dto.response.PerformanceCreateResponseDto;
+import jenius.performanceservice.exception.PerformanceErrorCode;
 import jenius.performanceservice.repository.PerformanceInfoRepository;
 import jenius.performanceservice.repository.PerformanceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -36,23 +36,24 @@ public class PerformanceService {
 
         // 공연 일자 별 PerformanceSeat 생성
         long dayOfPerformance = performance.getDayOfPerformance();
-        List<PerformanceInfo> infoList = new ArrayList<>();
 
-        for (PerformanceInfoDto infoDto : createRequestDto.getInformation()) {
-            PerformanceInfo performanceInfo = PerformanceInfo.builder()
-                    .performanceId(savedPerformance.getId())
-                    .performanceDate(infoDto.getPerformanceDate())
-                    .startTime(infoDto.getStartTime())
-                    .availableSeats(infoDto.getAvailableSeats())
-                    .build();
+        // 공연 날짜 별 정보가 모두 들어왔는지 검증
+        if (createRequestDto.getInformation().size() != dayOfPerformance) {
+            throw new CustomException(PerformanceErrorCode.INVALID_PERFORMANCE_INFORMATION_NUMBER);
+        }
 
-            infoList.add(performanceInfo);
+        // 공연 날이 공연 기간 내에 존재하는지 검증
+        List<PerformanceInfo> infoList = createRequestDto.toEntity(savedPerformance.getId());
+        for (PerformanceInfo info : infoList) {
+            info.validatePerformanceDate(savedPerformance.getStartDate(), savedPerformance.getEndDate());
         }
 
         List<PerformanceInfo> performanceInfoList = performanceInfoRepository.saveAll(infoList);
         return PerformanceCreateResponseDto.fromEntity(performance, performanceInfoList);
     }
-    
+
+
+
     
 
 }

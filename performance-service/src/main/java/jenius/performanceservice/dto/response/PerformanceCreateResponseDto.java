@@ -8,6 +8,7 @@ import jenius.performanceservice.domain.PerformanceInfo;
 import jenius.performanceservice.dto.request.PerformanceInfoDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
@@ -16,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Getter
 public class PerformanceCreateResponseDto {
 
     private String title;

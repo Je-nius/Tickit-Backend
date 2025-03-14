@@ -38,6 +38,14 @@ public class PerformanceInfo {
         this.availableSeats = availableSeats;
     }
 
+    public void validatePerformanceDate(LocalDate startDate, LocalDate endDate) {
+        if (!(performanceDate.isEqual(startDate) ||
+                (performanceDate.isAfter(startDate) && performanceDate.isBefore(endDate)) ||
+                performanceDate.isEqual(endDate))) {
+            throw new CustomException(PerformanceErrorCode.INVALID_PERFORMANCE_DATE);
+        }
+    }
+
     public void updateAvailableSeats(int availableSeats) {
         if (availableSeats < 0) {
             throw new CustomException(PerformanceErrorCode.INVALID_PERFORMANCE_SEAT);

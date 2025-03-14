@@ -39,18 +39,18 @@ public class PerformanceCreateRequestDto {
     @NotBlank
     private String location;
 
-    @Positive
-    private int availableSeats;
-
     private List<PerformanceInfoDto> information;
 
     public List<PerformanceInfo> toEntity(Long performanceId) {
 
-        return PerformanceInfo.builder()
-                .
-
-
+        return information.stream()
+                .map(info ->
+                        PerformanceInfo.builder()
+                                .performanceId(performanceId)
+                                .performanceDate(info.getPerformanceDate())
+                                .startTime(info.getStartTime())
+                                .availableSeats(info.getAvailableSeats())
+                                .build())
+                .toList();
     }
-
-
 }
