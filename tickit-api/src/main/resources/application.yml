@@ -1,1 +1,3 @@
-spring.application.name=tickit-api
+spring:
+  application:
+    name: tickit-api
