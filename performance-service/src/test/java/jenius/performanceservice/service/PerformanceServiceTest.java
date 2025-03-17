@@ -99,7 +99,7 @@ class PerformanceServiceTest {
     }
 
     @Test
-    @DisplayName("공연 타이틀로 공연을 조회할 수 있다.")
+    @DisplayName("검색어로 공연을 조회할 수 있다.")
     public void findPerformanceByTitle() {
 
         // given
@@ -137,6 +137,5 @@ class PerformanceServiceTest {
         Assertions.assertThat(searchResponseDto.get(0).getTitle()).isEqualTo("테스트공연");
         Assertions.assertThat(searchResponseDto.get(1).getTitle()).isEqualTo("테스트공연-강원");
     }
-
 
 }

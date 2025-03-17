@@ -20,6 +20,8 @@ import java.util.List;
 @Getter
 public class PerformanceCreateResponseDto {
 
+    private Long performanceId;
+
     private String title;
 
     private LocalDate startDate;
@@ -42,6 +44,7 @@ public class PerformanceCreateResponseDto {
                 .toList();
 
         return PerformanceCreateResponseDto.builder()
+                .performanceId(performance.getId())
                 .title(performance.getTitle())
                 .startDate(performance.getStartDate())
                 .endDate(performance.getEndDate())
