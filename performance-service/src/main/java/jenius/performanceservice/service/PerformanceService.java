@@ -3,6 +3,8 @@ package jenius.performanceservice.service;
 import jenius.commonexception.CustomException;
 import jenius.performanceservice.domain.Performance;
 import jenius.performanceservice.domain.PerformanceInfo;
+import jenius.performanceservice.dto.request.PerformanceSearchRequestDto;
+import jenius.performanceservice.dto.response.PerformanceSearchResponseDto;
 import jenius.performanceservice.dto.request.PerformanceCreateRequestDto;
 import jenius.performanceservice.dto.response.PerformanceCreateResponseDto;
 import jenius.performanceservice.exception.PerformanceErrorCode;
@@ -52,8 +54,13 @@ public class PerformanceService {
         return PerformanceCreateResponseDto.fromEntity(performance, performanceInfoList);
     }
 
+    public List<PerformanceSearchResponseDto> findPerformance(PerformanceSearchRequestDto searchRequestDto) {
 
+        List<Performance> performances =
+                performanceRepository.findByTitleOrLocation(searchRequestDto.getKeyword());
 
-    
+        return PerformanceSearchResponseDto.fromEntity(searchRequestDto.getKeyword(),
+                performances);
+    }
 
 }

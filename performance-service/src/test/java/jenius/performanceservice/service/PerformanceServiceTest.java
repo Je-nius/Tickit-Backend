@@ -5,7 +5,9 @@ import jenius.performanceservice.domain.PerformanceGenre;
 import jenius.performanceservice.domain.PerformanceInfo;
 import jenius.performanceservice.dto.request.PerformanceCreateRequestDto;
 import jenius.performanceservice.dto.request.PerformanceInfoDto;
+import jenius.performanceservice.dto.request.PerformanceSearchRequestDto;
 import jenius.performanceservice.dto.response.PerformanceCreateResponseDto;
+import jenius.performanceservice.dto.response.PerformanceSearchResponseDto;
 import jenius.performanceservice.repository.PerformanceInfoRepository;
 import jenius.performanceservice.repository.PerformanceRepository;
 import org.assertj.core.api.Assertions;
@@ -100,7 +102,40 @@ class PerformanceServiceTest {
     @DisplayName("공연 타이틀로 공연을 조회할 수 있다.")
     public void findPerformanceByTitle() {
 
+        // given
+        String keyword = "테스트공연";
 
+        PerformanceSearchRequestDto performanceSearchRequestDto
+                = PerformanceSearchRequestDto.builder()
+                .keyword(keyword)
+                .build();
+
+        Performance performance_1 = Performance.builder()
+                .title("테스트공연")
+                .startDate(LocalDate.of(2025, 4, 15))
+                .endDate(LocalDate.of(2025, 4, 16))
+                .location("A홀")
+                .build();
+
+        Performance performance_2 = Performance.builder()
+                .title("테스트공연-강원")
+                .startDate(LocalDate.of(2025, 5, 9))
+                .endDate(LocalDate.of(2025, 7, 21))
+                .location("B홀")
+                .build();
+
+
+        when(performanceRepository.findByTitleOrLocation(keyword)).thenReturn(List.of(performance_1, performance_2));
+
+        // when
+        List<PerformanceSearchResponseDto> searchResponseDto =
+                performanceService.findPerformance(performanceSearchRequestDto);
+
+        // then
+        Assertions.assertThat(searchResponseDto).isNotNull();
+        Assertions.assertThat(searchResponseDto.size()).isEqualTo(2);
+        Assertions.assertThat(searchResponseDto.get(0).getTitle()).isEqualTo("테스트공연");
+        Assertions.assertThat(searchResponseDto.get(1).getTitle()).isEqualTo("테스트공연-강원");
     }
 
 
