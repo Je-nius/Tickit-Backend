@@ -1,4 +1,4 @@
-package jenius.commonexception;
+package jenius.common.exception;
 
 
 import lombok.AllArgsConstructor;
