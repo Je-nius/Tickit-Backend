@@ -1,6 +1,6 @@
 package jenius.performanceservice.exception;
 
-import jenius.commonexception.ErrorCode;
+import jenius.common.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 

@@ -4,7 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jenius.commonexception.CustomException;
+import jenius.common.exception.CustomException;
 import jenius.performanceservice.exception.PerformanceErrorCode;
 import lombok.Builder;
 import lombok.Getter;

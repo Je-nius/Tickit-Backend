@@ -1,6 +1,6 @@
 package jenius.reservationservice.service;
 
-import jenius.commonexception.CustomException;
+import jenius.common.exception.CustomException;
 import jenius.reservationservice.domain.Reservation;
 import jenius.reservationservice.domain.ReservationStatus;
 import jenius.reservationservice.dto.request.ReservationCancelRequestDto;

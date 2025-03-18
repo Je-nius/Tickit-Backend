@@ -1,6 +1,6 @@
 package jenius.reservationservice.exception;
 
-import jenius.commonexception.ErrorCode;
+import jenius.common.exception.ErrorCode;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 

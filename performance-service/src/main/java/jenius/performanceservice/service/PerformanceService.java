@@ -1,15 +1,13 @@
 package jenius.performanceservice.service;
 
-import jenius.commonexception.CustomException;
+import jenius.common.exception.CustomException;
 import jenius.performanceservice.domain.Performance;
 import jenius.performanceservice.domain.PerformanceInfo;
 import jenius.performanceservice.dto.request.PerformanceDeleteRequestDto;
 import jenius.performanceservice.dto.request.PerformanceSearchRequestDto;
-import jenius.performanceservice.dto.request.PerformanceUpdateRequestDto;
 import jenius.performanceservice.dto.response.PerformanceSearchResponseDto;
 import jenius.performanceservice.dto.request.PerformanceCreateRequestDto;
 import jenius.performanceservice.dto.response.PerformanceCreateResponseDto;
-import jenius.performanceservice.dto.response.PerformanceUpdateResponseDto;
 import jenius.performanceservice.exception.PerformanceErrorCode;
 import jenius.performanceservice.repository.PerformanceInfoRepository;
 import jenius.performanceservice.repository.PerformanceRepository;

@@ -1,7 +1,7 @@
 package jenius.performanceservice.domain;
 
 import jakarta.persistence.*;
-import jenius.commonexception.CustomException;
+import jenius.common.exception.CustomException;
 import jenius.performanceservice.dto.request.PerformanceUpdateRequestDto;
 import jenius.performanceservice.exception.PerformanceErrorCode;
 import lombok.Builder;
