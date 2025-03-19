@@ -1,9 +1,8 @@
 package jenius.tickitapi.performance;
 
-import jenius.performanceservice.domain.Performance;
 import jenius.performanceservice.domain.PerformanceGenre;
 import jenius.performanceservice.dto.request.PerformanceCreateRequestDto;
-import jenius.performanceservice.dto.request.PerformanceInfoDto;
+import jenius.performanceservice.dto.request.PerformanceScheduleDto;
 import jenius.performanceservice.dto.request.PerformanceSearchRequestDto;
 import jenius.performanceservice.dto.response.PerformanceCreateResponseDto;
 import jenius.performanceservice.dto.response.PerformanceSearchResponseDto;
@@ -36,13 +35,13 @@ class PerformanceControllerTest {
                 .endDate(LocalDate.of(2025, 4, 3))
                 .genre(PerformanceGenre.CONCERT)
                 .location("AB홀")
-                .information(List.of(
-                        PerformanceInfoDto.builder()
+                .schedules(List.of(
+                        PerformanceScheduleDto.builder()
                                 .performanceDate(LocalDate.of(2025, 4, 2))
                                 .startTime(LocalTime.of(20, 00))
                                 .availableSeats(100)
                                 .build(),
-                        PerformanceInfoDto.builder()
+                        PerformanceScheduleDto.builder()
                                 .performanceDate(LocalDate.of(2025, 4, 3))
                                 .startTime(LocalTime.of(17, 00))
                                 .availableSeats(100)
@@ -57,7 +56,7 @@ class PerformanceControllerTest {
         // then
         Assertions.assertThat(createResponseDto.getPerformanceId()).isEqualTo(1L);
         Assertions.assertThat(createResponseDto.getTitle()).isEqualTo("테스트공연");
-        Assertions.assertThat(createResponseDto.getPerformanceInformation().get(0).getAvailableSeats())
+        Assertions.assertThat(createResponseDto.getPerformanceSchedule().get(0).getAvailableSeats())
                 .isEqualTo(100);
     }
 
@@ -70,13 +69,13 @@ class PerformanceControllerTest {
                 .endDate(LocalDate.of(2025, 4, 3))
                 .genre(PerformanceGenre.CONCERT)
                 .location("AB홀")
-                .information(List.of(
-                        PerformanceInfoDto.builder()
+                .schedules(List.of(
+                        PerformanceScheduleDto.builder()
                                 .performanceDate(LocalDate.of(2025, 4, 2))
                                 .startTime(LocalTime.of(20, 00))
                                 .availableSeats(100)
                                 .build(),
-                        PerformanceInfoDto.builder()
+                        PerformanceScheduleDto.builder()
                                 .performanceDate(LocalDate.of(2025, 4, 3))
                                 .startTime(LocalTime.of(17, 00))
                                 .availableSeats(100)
@@ -90,13 +89,13 @@ class PerformanceControllerTest {
                 .endDate(LocalDate.of(2025, 5, 7))
                 .genre(PerformanceGenre.CONCERT)
                 .location("AB홀")
-                .information(List.of(
-                        PerformanceInfoDto.builder()
+                .schedules(List.of(
+                        PerformanceScheduleDto.builder()
                                 .performanceDate(LocalDate.of(2025, 5, 6))
                                 .startTime(LocalTime.of(20, 00))
                                 .availableSeats(100)
                                 .build(),
-                        PerformanceInfoDto.builder()
+                        PerformanceScheduleDto.builder()
                                 .performanceDate(LocalDate.of(2025, 5, 7))
                                 .startTime(LocalTime.of(17, 00))
                                 .availableSeats(100)
@@ -113,7 +112,7 @@ class PerformanceControllerTest {
 
         // when
         List<PerformanceSearchResponseDto> searchResponseDto =
-                performanceService.findPerformance(searchRequestDto);
+                performanceService.searchPerformances(searchRequestDto);
 
         // then
         Assertions.assertThat(searchResponseDto.size()).isEqualTo(2);

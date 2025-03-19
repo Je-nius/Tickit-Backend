@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jenius.performanceservice.domain.PerformanceGenre;
-import jenius.performanceservice.domain.PerformanceInfo;
+import jenius.performanceservice.domain.PerformanceSchedule;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -39,17 +39,16 @@ public class PerformanceCreateRequestDto {
     @NotBlank
     private String location;
 
-    private List<PerformanceInfoDto> information;
+    private List<PerformanceScheduleDto> schedules;
 
-    public List<PerformanceInfo> toEntity(Long performanceId) {
+    public List<PerformanceSchedule> toEntity(Long performanceId) {
 
-        return information.stream()
-                .map(info ->
-                        PerformanceInfo.builder()
+        return schedules.stream()
+                .map(schedule ->
+                        PerformanceSchedule.builder()
                                 .performanceId(performanceId)
-                                .performanceDate(info.getPerformanceDate())
-                                .startTime(info.getStartTime())
-                                .availableSeats(info.getAvailableSeats())
+                                .performanceDate(schedule.getPerformanceDate())
+                                .startTime(schedule.getStartTime())
                                 .build())
                 .toList();
     }

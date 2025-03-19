@@ -50,13 +50,13 @@ class PerformanceTest {
         int availableSeats = 100;
         int quantity = 2;
 
-        PerformanceInfo performanceInfo = PerformanceInfo.builder()
+        PerformanceSchedule performanceSchedule = PerformanceSchedule.builder()
                 .availableSeats(availableSeats)
                 .build();
 
-        performanceInfo.reserve(quantity);
+        performanceSchedule.reserve(quantity);
 
-        assertEquals(availableSeats - quantity, performanceInfo.getAvailableSeats());
+        assertEquals(availableSeats - quantity, performanceSchedule.getAvailableSeats());
     }
 
     @Test
@@ -66,13 +66,13 @@ class PerformanceTest {
         int availableSeats = 98;
         int quantity = 2;
 
-        PerformanceInfo performanceInfo = PerformanceInfo.builder()
+        PerformanceSchedule performanceSchedule = PerformanceSchedule.builder()
                 .availableSeats(availableSeats)
                 .build();
 
-        performanceInfo.cancel(quantity);
+        performanceSchedule.cancel(quantity);
 
-        assertEquals(availableSeats + quantity, performanceInfo.getAvailableSeats());
+        assertEquals(availableSeats + quantity, performanceSchedule.getAvailableSeats());
     }
 
 }

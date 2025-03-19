@@ -16,7 +16,7 @@ import java.time.LocalTime;
 @Entity
 @NoArgsConstructor
 @Getter
-public class PerformanceInfo {
+public class PerformanceSchedule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,14 +28,11 @@ public class PerformanceInfo {
 
     private LocalTime startTime;
     
-    private int availableSeats;
-
     @Builder
-    public PerformanceInfo(Long performanceId, LocalDate performanceDate, LocalTime startTime, int availableSeats) {
+    public PerformanceSchedule(Long performanceId, LocalDate performanceDate, LocalTime startTime, int availableSeats) {
         this.performanceId = performanceId;
         this.performanceDate = performanceDate;
         this.startTime = startTime;
-        this.availableSeats = availableSeats;
     }
 
     public void validatePerformanceDate(LocalDate startDate, LocalDate endDate) {

@@ -4,8 +4,8 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jenius.performanceservice.domain.Performance;
 import jenius.performanceservice.domain.PerformanceGenre;
-import jenius.performanceservice.domain.PerformanceInfo;
-import jenius.performanceservice.dto.request.PerformanceInfoDto;
+import jenius.performanceservice.domain.PerformanceSchedule;
+import jenius.performanceservice.dto.request.PerformanceScheduleDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,12 +35,12 @@ public class PerformanceCreateResponseDto {
 
     private String location;
 
-    private List<PerformanceInfoDto> performanceInformation;
+    private List<PerformanceScheduleDto> performanceSchedule;
 
     public static PerformanceCreateResponseDto fromEntity(Performance performance,
-                                                          List<PerformanceInfo> performanceInformation) {
-        List<PerformanceInfoDto> performanceInfoDtoList = performanceInformation.stream()
-                .map(PerformanceInfoDto::fromEntity)
+                                                          List<PerformanceSchedule> performanceInformation) {
+        List<PerformanceScheduleDto> performanceScheduleDtoList = performanceInformation.stream()
+                .map(PerformanceScheduleDto::fromEntity)
                 .toList();
 
         return PerformanceCreateResponseDto.builder()
@@ -51,7 +51,7 @@ public class PerformanceCreateResponseDto {
                 .runningTime(performance.getRunningTime())
                 .genre(performance.getGenre())
                 .location(performance.getLocation())
-                .performanceInformation(performanceInfoDtoList)
+                .performanceSchedule(performanceScheduleDtoList)
                 .build();
     }
 

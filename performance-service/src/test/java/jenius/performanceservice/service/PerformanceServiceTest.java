@@ -2,13 +2,13 @@ package jenius.performanceservice.service;
 
 import jenius.performanceservice.domain.Performance;
 import jenius.performanceservice.domain.PerformanceGenre;
-import jenius.performanceservice.domain.PerformanceInfo;
+import jenius.performanceservice.domain.PerformanceSchedule;
 import jenius.performanceservice.dto.request.PerformanceCreateRequestDto;
-import jenius.performanceservice.dto.request.PerformanceInfoDto;
+import jenius.performanceservice.dto.request.PerformanceScheduleDto;
 import jenius.performanceservice.dto.request.PerformanceSearchRequestDto;
 import jenius.performanceservice.dto.response.PerformanceCreateResponseDto;
 import jenius.performanceservice.dto.response.PerformanceSearchResponseDto;
-import jenius.performanceservice.repository.PerformanceInfoRepository;
+import jenius.performanceservice.repository.PerformanceScheduleRepository;
 import jenius.performanceservice.repository.PerformanceRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -31,7 +31,7 @@ class PerformanceServiceTest {
     @Mock
     PerformanceRepository performanceRepository;
     @Mock
-    PerformanceInfoRepository performanceInfoRepository;
+    PerformanceScheduleRepository performanceScheduleRepository;
 
     @InjectMocks
     PerformanceService performanceService;
@@ -43,13 +43,13 @@ class PerformanceServiceTest {
     public void createPerformance() {
 
         // given
-        PerformanceInfoDto infoDto1 = PerformanceInfoDto.builder()
+        PerformanceScheduleDto infoDto1 = PerformanceScheduleDto.builder()
                 .performanceDate(LocalDate.of(2025, 4, 15))
                 .startTime(LocalTime.of(20, 0))
                 .availableSeats(1000)
                 .build();
 
-        PerformanceInfoDto infoDto2 = PerformanceInfoDto.builder()
+        PerformanceScheduleDto infoDto2 = PerformanceScheduleDto.builder()
                 .performanceDate(LocalDate.of(2025, 4, 16))
                 .startTime(LocalTime.of(19, 0))
                 .availableSeats(1000)
@@ -61,17 +61,17 @@ class PerformanceServiceTest {
                 .endDate(LocalDate.of(2025, 4, 16))
                 .genre(PerformanceGenre.FESTIVAL)
                 .location("어쩌구홀")
-                .information(List.of(infoDto1, infoDto2))
+                .schedules(List.of(infoDto1, infoDto2))
                 .build();
 
-        PerformanceInfo performanceInfo1 = PerformanceInfo.builder()
+        PerformanceSchedule performanceSchedule1 = PerformanceSchedule.builder()
                 .performanceId(1L)
                 .performanceDate(LocalDate.of(2025, 4, 15))
                 .startTime(LocalTime.of(20, 0))
                 .availableSeats(1000)
                 .build();
 
-        PerformanceInfo performanceInfo2 = PerformanceInfo.builder()
+        PerformanceSchedule performanceSchedule2 = PerformanceSchedule.builder()
                 .performanceId(1L)
                 .performanceDate(LocalDate.of(2025, 4, 16))
                 .startTime(LocalTime.of(19, 0))
@@ -87,7 +87,7 @@ class PerformanceServiceTest {
                 .build();
 
         when(performanceRepository.save(any())).thenReturn(performance);
-        when(performanceInfoRepository.saveAll(any())).thenReturn(List.of(performanceInfo1, performanceInfo2));
+        when(performanceScheduleRepository.saveAll(any())).thenReturn(List.of(performanceSchedule1, performanceSchedule2));
 
         // when
         PerformanceCreateResponseDto createResponseDto =
@@ -95,12 +95,12 @@ class PerformanceServiceTest {
 
         // then
         Assertions.assertThat(createResponseDto).isNotNull();
-        Assertions.assertThat(createResponseDto.getPerformanceInformation().size()).isEqualTo(2);
+        Assertions.assertThat(createResponseDto.getPerformanceSchedule().size()).isEqualTo(2);
     }
 
     @Test
     @DisplayName("검색어로 공연을 조회할 수 있다.")
-    public void findPerformanceByTitle() {
+    public void searchPerformancesByTitle() {
 
         // given
         String keyword = "테스트공연";
@@ -129,7 +129,7 @@ class PerformanceServiceTest {
 
         // when
         List<PerformanceSearchResponseDto> searchResponseDto =
-                performanceService.findPerformance(performanceSearchRequestDto);
+                performanceService.searchPerformances(performanceSearchRequestDto);
 
         // then
         Assertions.assertThat(searchResponseDto).isNotNull();

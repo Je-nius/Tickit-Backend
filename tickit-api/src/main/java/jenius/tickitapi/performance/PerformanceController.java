@@ -3,13 +3,17 @@ package jenius.tickitapi.performance;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jenius.performanceservice.dto.request.PerformanceCreateRequestDto;
+import jenius.performanceservice.dto.request.PerformanceSearchRequestDto;
 import jenius.performanceservice.dto.response.PerformanceCreateResponseDto;
+import jenius.performanceservice.dto.response.PerformanceSearchResponseDto;
 import jenius.performanceservice.service.PerformanceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,6 +37,16 @@ public class PerformanceController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(createResponseDto);
+    }
+
+    @PostMapping("/api/contents/search")
+    public ResponseEntity<List<PerformanceSearchResponseDto>> searchPerformance(PerformanceSearchRequestDto
+                                                                                  searchRequestDto) {
+        List<PerformanceSearchResponseDto> searchResponseDtos =
+                performanceService.searchPerformances(searchRequestDto);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(searchResponseDtos);
     }
 
 
