@@ -15,7 +15,6 @@ public class ReservationCreateRequestDto {
     private Long performanceId;
     @NotNull
     private int quantity;
-    @NotNull
-    private String payType;
-
+//    @NotNull
+//    private String payType;
 }

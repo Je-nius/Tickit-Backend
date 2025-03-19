@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -37,9 +38,12 @@ public class PerformanceCreateResponseDto {
 
     private List<PerformanceScheduleDto> performanceSchedule;
 
+    private Map<LocalDate, Long> totalSeatNumber;
+
     public static PerformanceCreateResponseDto fromEntity(Performance performance,
-                                                          List<PerformanceSchedule> performanceInformation) {
-        List<PerformanceScheduleDto> performanceScheduleDtoList = performanceInformation.stream()
+                                                          List<PerformanceSchedule> performanceSchedules,
+                                                          Map<LocalDate, Long> totalSeatNumber) {
+        List<PerformanceScheduleDto> performanceScheduleDtoList = performanceSchedules.stream()
                 .map(PerformanceScheduleDto::fromEntity)
                 .toList();
 
@@ -52,6 +56,7 @@ public class PerformanceCreateResponseDto {
                 .genre(performance.getGenre())
                 .location(performance.getLocation())
                 .performanceSchedule(performanceScheduleDtoList)
+                .totalSeatNumber(totalSeatNumber)
                 .build();
     }
 

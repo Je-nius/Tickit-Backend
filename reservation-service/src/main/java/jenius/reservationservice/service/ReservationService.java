@@ -1,6 +1,8 @@
 package jenius.reservationservice.service;
 
 import jenius.common.exception.CustomException;
+import jenius.performanceservice.domain.Performance;
+import jenius.performanceservice.service.PerformanceService;
 import jenius.reservationservice.domain.Reservation;
 import jenius.reservationservice.domain.ReservationStatus;
 import jenius.reservationservice.dto.request.ReservationCancelRequestDto;
@@ -19,18 +21,16 @@ import java.security.SecureRandom;
 public class ReservationService {
 
     private final ReservationRepository reservationRepository;
-//    private final PerformanceService performanceService;
+    private final PerformanceService performanceService;
 
     public ReservationCreateResponseDto createReservation(
             Long userId, ReservationCreateRequestDto reservationCreateRequestDto
     ) {
 
-        // TODO: 결제 API 요청/응답
-        /*
-         * PAY TYPE
-         * 카카오페이 KAKAO_PAY
-         * 무통장입금 VBANK
-         */
+        // 공연 이름 가져오기
+        Performance performance =
+                performanceService.findPerformanceById(reservationCreateRequestDto.getPerformanceId());
+        String performanceTitle = performance.getTitle();
 
         // 예매 번호 생성
         String reservationNumber = generateUniqueReservationNumber();
@@ -40,17 +40,21 @@ public class ReservationService {
                 .userId(userId)
                 .performanceId(reservationCreateRequestDto.getPerformanceId())
                 .reservationNumber(reservationNumber)
-                .quantity(reservationCreateRequestDto.getQuantity())
                 .build();
+
+        // quantity 만큼 ticket 생성
+
+        // 결제 요청 (KAKAO_PAY)
+//        KakaoPayReadyRequestDto.builder()
+//                .orderId(reservationNumber)
+//                .userId(String.valueOf(userId))
+//                .itemName(performanceTitle)
+//                .quantity(reservationCreateRequestDto.getQuantity())
 
         reservation.reserve();
 
-        // TODO: 공연 이름 가져오기 (PerformanceService)
-//        Performance performance =
-//                performanceService.findPerformanceById(reservationCreateRequestDto.getPerformanceId());
-
         reservationRepository.save(reservation);
-        return ReservationCreateResponseDto.fromEntity("임시타이틀", reservation);
+        return ReservationCreateResponseDto.fromEntity(performanceTitle, reservation);
     }
 
     public ReservationCancelResponseDto cancelReservation(

@@ -42,37 +42,5 @@ class PerformanceTest {
                         .build(),
                 "공연 시작일은 종료일보다 앞서야 힙니다.");
     }
-    
-    @Test
-    @DisplayName("공연을 예매하면 이용 가능 좌석 수가 줄어든다")
-    public void diffAvailableSeats() {
-
-        int availableSeats = 100;
-        int quantity = 2;
-
-        PerformanceSchedule performanceSchedule = PerformanceSchedule.builder()
-                .availableSeats(availableSeats)
-                .build();
-
-        performanceSchedule.reserve(quantity);
-
-        assertEquals(availableSeats - quantity, performanceSchedule.getAvailableSeats());
-    }
-
-    @Test
-    @DisplayName("공연을 취소하면 이용 가능 좌석 수가 늘어난다")
-    public void addAvailableSeats() {
-
-        int availableSeats = 98;
-        int quantity = 2;
-
-        PerformanceSchedule performanceSchedule = PerformanceSchedule.builder()
-                .availableSeats(availableSeats)
-                .build();
-
-        performanceSchedule.cancel(quantity);
-
-        assertEquals(availableSeats + quantity, performanceSchedule.getAvailableSeats());
-    }
 
 }

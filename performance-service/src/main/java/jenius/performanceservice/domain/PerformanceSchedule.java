@@ -29,7 +29,7 @@ public class PerformanceSchedule {
     private LocalTime startTime;
     
     @Builder
-    public PerformanceSchedule(Long performanceId, LocalDate performanceDate, LocalTime startTime, int availableSeats) {
+    public PerformanceSchedule(Long performanceId, LocalDate performanceDate, LocalTime startTime) {
         this.performanceId = performanceId;
         this.performanceDate = performanceDate;
         this.startTime = startTime;
@@ -41,28 +41,6 @@ public class PerformanceSchedule {
                 performanceDate.isEqual(endDate))) {
             throw new CustomException(PerformanceErrorCode.INVALID_PERFORMANCE_DATE);
         }
-    }
-
-    public void updateAvailableSeats(int availableSeats) {
-        if (availableSeats < 0) {
-            throw new CustomException(PerformanceErrorCode.INVALID_PERFORMANCE_SEAT);
-        }
-        this.availableSeats = availableSeats;
-    }
-
-    public boolean isReservable(int quantity) {
-        return availableSeats >= quantity;
-    }
-
-    public void reserve(int quantity) {
-        if (!isReservable(quantity)) {
-            throw new CustomException(PerformanceErrorCode.FULL_SEAT_EXCEPTION);
-        }
-        availableSeats -= quantity;
-    }
-
-    public void cancel(int quantity) {
-        availableSeats += quantity;
     }
 
 }

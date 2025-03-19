@@ -46,13 +46,11 @@ class PerformanceServiceTest {
         PerformanceScheduleDto infoDto1 = PerformanceScheduleDto.builder()
                 .performanceDate(LocalDate.of(2025, 4, 15))
                 .startTime(LocalTime.of(20, 0))
-                .availableSeats(1000)
                 .build();
 
         PerformanceScheduleDto infoDto2 = PerformanceScheduleDto.builder()
                 .performanceDate(LocalDate.of(2025, 4, 16))
                 .startTime(LocalTime.of(19, 0))
-                .availableSeats(1000)
                 .build();
 
         PerformanceCreateRequestDto createRequestDto = PerformanceCreateRequestDto.builder()
@@ -68,14 +66,12 @@ class PerformanceServiceTest {
                 .performanceId(1L)
                 .performanceDate(LocalDate.of(2025, 4, 15))
                 .startTime(LocalTime.of(20, 0))
-                .availableSeats(1000)
                 .build();
 
         PerformanceSchedule performanceSchedule2 = PerformanceSchedule.builder()
                 .performanceId(1L)
                 .performanceDate(LocalDate.of(2025, 4, 16))
                 .startTime(LocalTime.of(19, 0))
-                .availableSeats(1000)
                 .build();
 
         Performance performance = Performance.builder()

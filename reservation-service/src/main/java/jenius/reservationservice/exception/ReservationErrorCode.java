@@ -16,6 +16,7 @@ public enum ReservationErrorCode implements ErrorCode {
     private final HttpStatus status;
     private final String message;
 
+
     @Override
     public HttpStatus getHttpStatus() {
         return this.status;

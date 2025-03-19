@@ -27,17 +27,14 @@ public class Reservation {
 
     private LocalDateTime cancelDate;
 
-    private int quantity;
-
     @Builder
     public Reservation(Long userId, Long performanceId, String reservationNumber, ReservationStatus status,
-                       LocalDateTime reservationDate, int quantity) {
+                       LocalDateTime reservationDate) {
         this.userId = userId;
         this.performanceId = performanceId;
         this.reservationNumber = reservationNumber;
         this.status = status;
         this.reservationDate = reservationDate;
-        this.quantity = quantity;
     }
 
     public void cancel() {

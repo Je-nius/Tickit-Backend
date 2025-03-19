@@ -59,7 +59,7 @@ public class Performance {
         }
     }
 
-    public void changePerformanceSchedule   (PerformanceUpdateRequestDto updateRequestDto) {
+    public void changePerformanceSchedule(PerformanceUpdateRequestDto updateRequestDto) {
         if (updateRequestDto.getTitle() != null) this.title = updateRequestDto.getTitle();
         if (updateRequestDto.getRunningTime() >= 0) this.runningTime = updateRequestDto.getRunningTime();
         if (updateRequestDto.getGenre() != null) this.genre = updateRequestDto.getGenre();

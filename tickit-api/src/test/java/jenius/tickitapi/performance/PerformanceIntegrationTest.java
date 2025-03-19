@@ -1,6 +1,7 @@
 package jenius.tickitapi.performance;
 
 import jenius.performanceservice.domain.PerformanceGenre;
+import jenius.performanceservice.domain.PerformanceSchedule;
 import jenius.performanceservice.dto.request.PerformanceCreateRequestDto;
 import jenius.performanceservice.dto.request.PerformanceScheduleDto;
 import jenius.performanceservice.dto.request.PerformanceSearchRequestDto;
@@ -8,45 +9,56 @@ import jenius.performanceservice.dto.response.PerformanceCreateResponseDto;
 import jenius.performanceservice.dto.response.PerformanceSearchResponseDto;
 import jenius.performanceservice.repository.PerformanceRepository;
 import jenius.performanceservice.service.PerformanceService;
+import jenius.seatservice.domain.SeatType;
+import jenius.seatservice.dto.SeatCreateDto;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
 
 @SpringBootTest
-class PerformanceControllerTest {
-
-    @Autowired
-    private PerformanceRepository performanceRepository;
+@Transactional
+class PerformanceIntegrationTest {
 
     @Autowired
     private PerformanceService performanceService;
 
     @Test
+    @DisplayName("공연을 생성할 수 있다.")
     void createPerformance() {
+
         // given
+        LocalDate startDate = LocalDate.of(2025, 4, 2);
+        LocalDate endDate = LocalDate.of(2025, 4, 3);
+
         PerformanceCreateRequestDto createRequestDto = PerformanceCreateRequestDto.builder()
                 .title("테스트공연")
-                .startDate(LocalDate.of(2025, 4, 2))
-                .endDate(LocalDate.of(2025, 4, 3))
+                .startDate(startDate)
+                .endDate(endDate)
                 .genre(PerformanceGenre.CONCERT)
                 .location("AB홀")
                 .schedules(List.of(
                         PerformanceScheduleDto.builder()
-                                .performanceDate(LocalDate.of(2025, 4, 2))
+                                .performanceDate(startDate)
                                 .startTime(LocalTime.of(20, 00))
-                                .availableSeats(100)
                                 .build(),
                         PerformanceScheduleDto.builder()
-                                .performanceDate(LocalDate.of(2025, 4, 3))
+                                .performanceDate(endDate)
                                 .startTime(LocalTime.of(17, 00))
-                                .availableSeats(100)
                                 .build()
                 ))
+                .seatConfig(SeatCreateDto.builder()
+                        .zoneSeatNumber(Map.of("A", 10, "B", 20)) // 총 30 좌석
+                        .zoneType(Map.of("A", SeatType.VIP, "B", SeatType.STANDARD))
+                        .typePrice(Map.of(SeatType.VIP, 140_000L, SeatType.STANDARD, 100_000L))
+                        .build())
                 .build();
 
         // when
@@ -56,11 +68,12 @@ class PerformanceControllerTest {
         // then
         Assertions.assertThat(createResponseDto.getPerformanceId()).isEqualTo(1L);
         Assertions.assertThat(createResponseDto.getTitle()).isEqualTo("테스트공연");
-        Assertions.assertThat(createResponseDto.getPerformanceSchedule().get(0).getAvailableSeats())
-                .isEqualTo(100);
+        Assertions.assertThat(createResponseDto.getTotalSeatNumber().get(startDate))
+                .isEqualTo(30);
     }
 
     @Test
+    @DisplayName("공연을 조회할 수 있다.")
     void findPerformance() {
         // given
         PerformanceCreateRequestDto createRequestDto_1 = PerformanceCreateRequestDto.builder()
@@ -73,14 +86,17 @@ class PerformanceControllerTest {
                         PerformanceScheduleDto.builder()
                                 .performanceDate(LocalDate.of(2025, 4, 2))
                                 .startTime(LocalTime.of(20, 00))
-                                .availableSeats(100)
                                 .build(),
                         PerformanceScheduleDto.builder()
                                 .performanceDate(LocalDate.of(2025, 4, 3))
                                 .startTime(LocalTime.of(17, 00))
-                                .availableSeats(100)
                                 .build()
                 ))
+                .seatConfig(SeatCreateDto.builder()
+                        .zoneSeatNumber(Map.of("A", 10, "B", 20))
+                        .zoneType(Map.of("A", SeatType.VIP, "B", SeatType.STANDARD))
+                        .typePrice(Map.of(SeatType.VIP, 140_000L, SeatType.STANDARD, 100_000L))
+                        .build())
                 .build();
 
         PerformanceCreateRequestDto createRequestDto_2 = PerformanceCreateRequestDto.builder()
@@ -93,14 +109,17 @@ class PerformanceControllerTest {
                         PerformanceScheduleDto.builder()
                                 .performanceDate(LocalDate.of(2025, 5, 6))
                                 .startTime(LocalTime.of(20, 00))
-                                .availableSeats(100)
                                 .build(),
                         PerformanceScheduleDto.builder()
                                 .performanceDate(LocalDate.of(2025, 5, 7))
                                 .startTime(LocalTime.of(17, 00))
-                                .availableSeats(100)
                                 .build()
                 ))
+                .seatConfig(SeatCreateDto.builder()
+                        .zoneSeatNumber(Map.of("A", 10, "B", 20))
+                        .zoneType(Map.of("A", SeatType.VIP, "B", SeatType.STANDARD))
+                        .typePrice(Map.of(SeatType.VIP, 140_000L, SeatType.STANDARD, 100_000L))
+                        .build())
                 .build();
 
         performanceService.createPerformance(createRequestDto_1);

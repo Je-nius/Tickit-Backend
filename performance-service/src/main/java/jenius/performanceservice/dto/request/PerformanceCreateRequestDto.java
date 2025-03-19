@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jenius.performanceservice.domain.PerformanceGenre;
 import jenius.performanceservice.domain.PerformanceSchedule;
+import jenius.seatservice.dto.SeatCreateDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,6 +41,8 @@ public class PerformanceCreateRequestDto {
     private String location;
 
     private List<PerformanceScheduleDto> schedules;
+
+    private SeatCreateDto seatConfig;
 
     public List<PerformanceSchedule> toEntity(Long performanceId) {
 

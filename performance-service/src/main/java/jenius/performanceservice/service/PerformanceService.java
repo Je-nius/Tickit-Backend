@@ -12,11 +12,15 @@ import jenius.performanceservice.dto.response.PerformanceCreateResponseDto;
 import jenius.performanceservice.exception.PerformanceErrorCode;
 import jenius.performanceservice.repository.PerformanceScheduleRepository;
 import jenius.performanceservice.repository.PerformanceRepository;
+import jenius.seatservice.service.SeatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -54,9 +58,13 @@ public class PerformanceService {
         performanceScheduleRepository.saveAll(performanceSchedules);
 
 
-        // 공연 일정 별 좌석 생성
+        // 공연 일정 별 좌석 생성 & 전체 좌석 수 조회
+        Map<LocalDate, Long> totalSeatNumber = new HashMap<>();
+
         for (PerformanceSchedule schedule : performanceSchedules) {
-            seatService.generateSeatsForPerformanceSchedule(schedule);
+            seatService.generateSeatsForPerformanceSchedule(schedule.getId(), createRequestDto.getSeatConfig());
+            Long seatCount = seatService.countAvailableSeat(schedule.getId());
+            totalSeatNumber.put(schedule.getPerformanceDate(), seatCount);
         }
 
         // 공연 날짜 별 정보가 모두 들어왔는지 검증
@@ -73,7 +81,7 @@ public class PerformanceService {
         }
 
         List<PerformanceSchedule> performanceScheduleList = performanceScheduleRepository.saveAll(schedules);
-        return PerformanceCreateResponseDto.fromEntity(performance, performanceScheduleList);
+        return PerformanceCreateResponseDto.fromEntity(performance, performanceScheduleList, totalSeatNumber);
     }
 
     /**
