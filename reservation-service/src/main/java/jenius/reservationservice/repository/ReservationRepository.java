@@ -14,8 +14,9 @@ public class ReservationRepository {
 
     private final EntityManager em;
 
-    public void save(Reservation reservation) {
+    public Reservation save(Reservation reservation) {
         em.persist(reservation);
+        return reservation;
     }
 
     public Optional<Reservation> findReservationById(Long reservationId) {

@@ -16,7 +16,7 @@ public class Reservation {
 
     private Long userId;
 
-    private Long performanceId;
+    private Long performanceScheduleId;
 
     private String reservationNumber;
 
@@ -27,14 +27,25 @@ public class Reservation {
 
     private LocalDateTime cancelDate;
 
+    private Long totalAmount;
+
     @Builder
-    public Reservation(Long userId, Long performanceId, String reservationNumber, ReservationStatus status,
-                       LocalDateTime reservationDate) {
+    public Reservation(Long userId, Long performanceScheduleId, String reservationNumber, ReservationStatus status,
+                       LocalDateTime reservationDate, Long totalAmount) {
         this.userId = userId;
-        this.performanceId = performanceId;
+        this.performanceScheduleId = performanceScheduleId;
         this.reservationNumber = reservationNumber;
         this.status = status;
         this.reservationDate = reservationDate;
+        this.totalAmount = totalAmount;
+    }
+
+    public void assignTotalAmount(Long amount) {
+        this.totalAmount = amount;
+    }
+
+    public void pending() {
+        this.status = ReservationStatus.PENDING;
     }
 
     public void cancel() {

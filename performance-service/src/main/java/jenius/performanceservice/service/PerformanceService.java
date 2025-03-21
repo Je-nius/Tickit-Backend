@@ -85,7 +85,18 @@ public class PerformanceService {
     }
 
     /**
+     * 공연 일정 ID 를 통해 공연 엔티티 가져오기
+     */
+    public Performance findPerformanceByScheduleId(Long performanceScheduleId) {
+        PerformanceSchedule performanceSchedule = performanceScheduleRepository.findById(performanceScheduleId)
+                .orElseThrow(() -> new CustomException(PerformanceErrorCode.NOT_FOUND_PERFORMANCE_SCHEDULE));
+
+        return findPerformanceById(performanceSchedule.getPerformanceId());
+    }
+
+    /**
      * 공연 엔티티 가져오기
+     *
      * @param performanceId
      * @return
      */

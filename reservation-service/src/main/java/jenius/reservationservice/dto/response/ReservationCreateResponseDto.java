@@ -19,6 +19,7 @@ public class ReservationCreateResponseDto {
     private String reservationNumber;
     private ReservationStatus reservationStatus;
     private LocalDateTime reservationDate;
+    private Long totalAmount;
 
     public static ReservationCreateResponseDto fromEntity(String performanceTitle, Reservation reservation) {
         return ReservationCreateResponseDto.builder()
@@ -26,6 +27,7 @@ public class ReservationCreateResponseDto {
                 .reservationNumber(reservation.getReservationNumber())
                 .reservationStatus(reservation.getStatus())
                 .reservationDate(reservation.getReservationDate())
+                .totalAmount(reservation.getTotalAmount())
                 .build();
     }
 

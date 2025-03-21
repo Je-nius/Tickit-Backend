@@ -15,7 +15,19 @@ public class Payment {
     @Id
     private String tid;
     private String orderId;
-    private String userId;
+    private Long userId;
     @Enumerated(EnumType.STRING)
     private PaymentStatus status;
+
+    public void approve() {
+        this.status = PaymentStatus.APPROVED;
+    }
+
+    public void cancel() {
+        this.status = PaymentStatus.CANCEL;
+    }
+
+    public void fail() {
+        this.status = PaymentStatus.FAIL;
+    }
 }
