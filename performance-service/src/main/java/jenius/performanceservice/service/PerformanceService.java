@@ -14,7 +14,9 @@ import jenius.performanceservice.repository.PerformanceScheduleRepository;
 import jenius.performanceservice.repository.PerformanceRepository;
 import jenius.seatservice.service.SeatService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PerformanceService {
@@ -30,6 +33,7 @@ public class PerformanceService {
     private final PerformanceScheduleRepository performanceScheduleRepository;
     private final SeatService seatService;
 
+    @Transactional
     public PerformanceCreateResponseDto createPerformance(PerformanceCreateRequestDto createRequestDto) {
 
         // 공연 생성
@@ -55,8 +59,7 @@ public class PerformanceService {
                     .build();
             performanceSchedules.add(schedule);
         }
-        performanceScheduleRepository.saveAll(performanceSchedules);
-
+        List<PerformanceSchedule> performanceScheduleList = performanceScheduleRepository.saveAll(performanceSchedules);
 
         // 공연 일정 별 좌석 생성 & 전체 좌석 수 조회
         Map<LocalDate, Long> totalSeatNumber = new HashMap<>();
@@ -80,7 +83,6 @@ public class PerformanceService {
             schedule.validatePerformanceDate(savedPerformance.getStartDate(), savedPerformance.getEndDate());
         }
 
-        List<PerformanceSchedule> performanceScheduleList = performanceScheduleRepository.saveAll(schedules);
         return PerformanceCreateResponseDto.fromEntity(performance, performanceScheduleList, totalSeatNumber);
     }
 
@@ -122,6 +124,7 @@ public class PerformanceService {
     }
      */
 
+    @Transactional
     public void deletePerformance(PerformanceDeleteRequestDto deleteRequestDto) {
         performanceRepository.deleteById(deleteRequestDto.getPerformanceId());
     }

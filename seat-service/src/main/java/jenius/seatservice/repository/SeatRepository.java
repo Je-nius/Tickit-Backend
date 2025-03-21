@@ -9,6 +9,6 @@ import java.util.Optional;
 public interface SeatRepository extends JpaRepository<Seat, Long> {
 
     boolean existsByPerformanceScheduleId(Long performanceScheduleId);
-    Optional<Seat> findByPerformanceScheduleIdAndSeatType(Long performanceScheduleId, SeatType seatType);
+    Optional<Seat> findFirstByPerformanceScheduleIdAndSeatType(Long performanceScheduleId, SeatType seatType);
     Long countByPerformanceScheduleId(Long performanceScheduleId);
 }

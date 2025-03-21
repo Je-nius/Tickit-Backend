@@ -63,7 +63,7 @@ public class SeatService {
      * 이용 가능 좌석 중 가장 앞 좌석 반환
      */
     public Seat findFirstAvailableSeat(Long performanceScheduleId, SeatType seatType) {
-        return seatRepository.findByPerformanceScheduleIdAndSeatType(performanceScheduleId, seatType)
+        return seatRepository.findFirstByPerformanceScheduleIdAndSeatType(performanceScheduleId, seatType)
                 .orElseThrow(() -> checkSeatExistence(performanceScheduleId));
     }
 

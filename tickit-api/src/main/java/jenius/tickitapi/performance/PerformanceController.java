@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class PerformanceController {
             }
     )
     @PostMapping("/api/contents/create")
-    public ResponseEntity<PerformanceCreateResponseDto> createPerformance(PerformanceCreateRequestDto
+    public ResponseEntity<PerformanceCreateResponseDto> createPerformance(@RequestBody PerformanceCreateRequestDto
                                                                           createRequestDto) {
         PerformanceCreateResponseDto createResponseDto =
                 performanceService.createPerformance(createRequestDto);
@@ -40,7 +41,7 @@ public class PerformanceController {
     }
 
     @PostMapping("/api/contents/search")
-    public ResponseEntity<List<PerformanceSearchResponseDto>> searchPerformance(PerformanceSearchRequestDto
+    public ResponseEntity<List<PerformanceSearchResponseDto>> searchPerformance(@RequestBody PerformanceSearchRequestDto
                                                                                   searchRequestDto) {
         List<PerformanceSearchResponseDto> searchResponseDtos =
                 performanceService.searchPerformances(searchRequestDto);

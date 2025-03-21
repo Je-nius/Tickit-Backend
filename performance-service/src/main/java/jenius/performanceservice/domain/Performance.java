@@ -44,7 +44,6 @@ public class Performance {
         this.runningTime = runningTime;
         this.genre = genre;
         this.location = location;
-
         validatePerformanceDate(startDate, endDate);
     }
 
