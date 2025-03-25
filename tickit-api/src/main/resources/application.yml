@@ -12,6 +12,8 @@ spring:
 
 kakao:
   api:
+    app-key: 0c7b3db8206e128a2fc341c21acfc4bd
+    redirect-uri: http://localhost:8080/kakao/login/authorize
     key: "DEV9C84DDEF4431A52CE884EDB0EE8F9CEA33B86"
     cid: TC0ONETIME
     approval-url: http://localhost:8080/api/pay/approve

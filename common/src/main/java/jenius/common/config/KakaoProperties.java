@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "kakao.api")
 public class KakaoProperties {
+    private String appKey;
+    private String redirectUri;
     private String key;
     private String cid;
     private String approvalUrl;

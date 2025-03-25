@@ -11,6 +11,7 @@ import jenius.payservice.exception.PaymentErrorCode;
 import jenius.payservice.repository.PaymentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -26,6 +27,8 @@ import java.util.Map;
 public class KakaoPayService {
 
     private final PaymentRepository paymentRepository;
+
+    @Qualifier(value = "kakaoPayWebClient")
     private final WebClient kakaoPayWebClient;
     private final KakaoProperties kakaoProperties;
 
