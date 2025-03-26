@@ -52,7 +52,7 @@ public class UserService {
                 .orElseThrow(() -> new CustomException(UserErrorCode.NOT_FOUND_USER_BY_LOGIN_ID));
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new CustomException(UserErrorCode.NOT_MATCH_PASSWORD);
+            throw new CustomException(UserErrorCode.UNAUTHORIZED_USER);
         }
 
         userRepository.delete(user);
@@ -64,7 +64,7 @@ public class UserService {
         if (principal instanceof CustomUserDetails) {
             return ((CustomUserDetails) principal).getUsername();
         }
-        throw new CustomException(UserErrorCode.UNAUTHORIZED_USER);
+        throw new CustomException(UserErrorCode.NOT_LOGIN);
     }
 
     /**
