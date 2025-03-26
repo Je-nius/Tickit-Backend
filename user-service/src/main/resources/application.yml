@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: user-service
+
+jwt:
+  secret-key: 9fde0a405b323d8cf7b9bc0a39e205ed320b0364d1adfba467eac36aaa8a50d9

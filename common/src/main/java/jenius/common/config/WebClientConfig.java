@@ -2,8 +2,6 @@ package jenius.common.config;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -25,6 +23,13 @@ public class WebClientConfig {
                 .defaultRequest(request -> request
                         .header(HttpHeaders.AUTHORIZATION, "SECRET_KEY " + kakaoProperties.getKey())
                         .header(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON))
+                .build();
+    }
+
+    @Bean
+    public WebClient kakaoLoginWebClient() {
+        return WebClient.builder()
+                .baseUrl("https://kauth.kakao.com")
                 .build();
     }
 
