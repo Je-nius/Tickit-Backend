@@ -37,7 +37,7 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/", "/api/login", "/api/kakao/login", "/api/signup",
-                                "/api/verify/id", "/api/findid", "/api/changepw")
+                                "/api/verify/id", "/api/findid", "/api/changepw", "/v3/**")
                         .permitAll()
                         .anyRequest()
                         .authenticated()
