@@ -19,9 +19,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class JwtGenerator {
 
-    @Value("${jwt.secret-key}")
-    private String secret;
-    private SecretKey key;
+    private final SecretKey key;
 
     public JwtGenerator(@Value("${jwt.secret-key}")
                         String secret) {

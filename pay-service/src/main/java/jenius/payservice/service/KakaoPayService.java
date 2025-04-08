@@ -35,7 +35,7 @@ public class KakaoPayService {
     /**
      * 결제정보를 카카오페이 서버에 전달하고 결제 고유번호(TID)와 URL을 응답받는 단계
      */
-    public KakaoPayReadyResponseDto readyForKakaoPay(KakaoPayReadyRequestDto readyRequestDto) {
+    public KakaoPayReadyResponseDto readyForKakaPay(KakaoPayReadyRequestDto readyRequestDto) {
 
         try {
             KakaoPayReadyResponseDto readyResponseDto = kakaoPayWebClient.post()

@@ -13,6 +13,6 @@ public class KakaoPayReadyRequestDto {
     private String orderId;
     private Long userId;
     private String itemName;
-    private int quantity;
+    private Integer quantity;
     private Long totalAmount;
 }

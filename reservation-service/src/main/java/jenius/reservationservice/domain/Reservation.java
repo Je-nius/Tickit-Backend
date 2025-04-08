@@ -29,15 +29,18 @@ public class Reservation {
 
     private Long totalAmount;
 
+    private Integer quantity;
+
     @Builder
     public Reservation(Long userId, Long performanceScheduleId, String reservationNumber, ReservationStatus status,
-                       LocalDateTime reservationDate, Long totalAmount) {
+                       LocalDateTime reservationDate, Long totalAmount, Integer quantity) {
         this.userId = userId;
         this.performanceScheduleId = performanceScheduleId;
         this.reservationNumber = reservationNumber;
         this.status = status;
         this.reservationDate = reservationDate;
         this.totalAmount = totalAmount;
+        this.quantity = quantity;
     }
 
     public void assignTotalAmount(Long amount) {

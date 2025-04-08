@@ -2,26 +2,16 @@ package jenius.reservationservice.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 import jenius.seatservice.domain.SeatType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class ReservationCreateRequestDto {
+public class ReservationRequestDto {
 
     @NotNull
     private Long performanceScheduleId;
     @NotNull
-    private int quantity;
-    @NotNull
     private SeatType seatType;
+    @NotNull
+    private Integer quantity;
 //    @NotNull
 //    private String payType;
-
-//    private String entryToken;
 
 }

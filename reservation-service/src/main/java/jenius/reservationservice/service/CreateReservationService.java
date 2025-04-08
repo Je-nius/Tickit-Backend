@@ -32,6 +32,7 @@ public class CreateReservationService {
                 .userId(userId)
                 .performanceScheduleId(reservationCreateRequestDto.getPerformanceScheduleId())
                 .reservationNumber(reservationNumber)
+                .quantity(reservationCreateRequestDto.getQuantity())
                 .build();
 
         Reservation savedReservation = reservationRepository.save(reservation);

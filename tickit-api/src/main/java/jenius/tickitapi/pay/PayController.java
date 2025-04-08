@@ -7,7 +7,6 @@ import jenius.payservice.service.KakaoPayService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Mono;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,7 +17,7 @@ public class PayController {
     @PostMapping("/api/ticket/pay")
     public ResponseEntity<KakaoPayReadyResponseDto> readyForKakaoPay(@RequestBody KakaoPayReadyRequestDto requestDto) {
         return ResponseEntity.ok()
-                .body(kakaoPayService.readyForKakaoPay(requestDto));
+                .body(kakaoPayService.readyForKakaPay(requestDto));
     }
 
     @GetMapping("/api/pay/approve")

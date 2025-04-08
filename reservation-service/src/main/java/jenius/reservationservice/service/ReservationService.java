@@ -51,7 +51,7 @@ public class ReservationService {
                 .build();
 
         try {
-            kakaoPayService.readyForKakaoPay(readyRequestDto);
+            kakaoPayService.readyForKakaPay(readyRequestDto);
             reservation.reserve();
             return ReservationCreateResponseDto.fromEntity(performanceTitle, reservation);
         } catch (CustomException e) {

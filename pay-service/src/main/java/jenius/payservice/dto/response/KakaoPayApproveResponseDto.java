@@ -20,7 +20,7 @@ public class KakaoPayApproveResponseDto {
     private CardInfo card_info;
     private String item_name;
     private String item_code;
-    private int quantity;
+    private Integer quantity;
     private LocalDateTime created_at;
     private LocalDateTime approved_at;
     private String payload;
