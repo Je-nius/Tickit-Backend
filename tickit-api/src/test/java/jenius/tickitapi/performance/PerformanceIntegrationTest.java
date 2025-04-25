@@ -1,13 +1,11 @@
 package jenius.tickitapi.performance;
 
 import jenius.performanceservice.domain.PerformanceGenre;
-import jenius.performanceservice.domain.PerformanceSchedule;
 import jenius.performanceservice.dto.request.PerformanceCreateRequestDto;
 import jenius.performanceservice.dto.request.PerformanceScheduleDto;
 import jenius.performanceservice.dto.request.PerformanceSearchRequestDto;
 import jenius.performanceservice.dto.response.PerformanceCreateResponseDto;
 import jenius.performanceservice.dto.response.PerformanceSearchResponseDto;
-import jenius.performanceservice.repository.PerformanceRepository;
 import jenius.performanceservice.service.PerformanceService;
 import jenius.seatservice.domain.SeatType;
 import jenius.seatservice.dto.SeatCreateDto;
@@ -16,8 +14,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -29,10 +30,16 @@ class PerformanceIntegrationTest {
 
     @Autowired
     private PerformanceService performanceService;
+    private MockMultipartFile file = new MockMultipartFile(
+            "공연 포스터 이미지",
+            "poster.png",
+            MediaType.IMAGE_PNG_VALUE,
+            "poster".getBytes()
+    );
 
     @Test
     @DisplayName("공연을 생성할 수 있다.")
-    void createPerformance() {
+    void createPerformance() throws IOException {
 
         // given
         LocalDate startDate = LocalDate.of(2025, 4, 2);
@@ -63,7 +70,7 @@ class PerformanceIntegrationTest {
 
         // when
         PerformanceCreateResponseDto createResponseDto =
-                performanceService.createPerformance(createRequestDto);
+                performanceService.createPerformance(file, createRequestDto);
 
         // then
         Assertions.assertThat(createResponseDto.getPerformanceId()).isEqualTo(1L);
@@ -74,7 +81,7 @@ class PerformanceIntegrationTest {
 
     @Test
     @DisplayName("공연을 조회할 수 있다.")
-    void findPerformance() {
+    void findPerformance() throws IOException {
         // given
         PerformanceCreateRequestDto createRequestDto_1 = PerformanceCreateRequestDto.builder()
                 .title("A테스트공연")
@@ -97,6 +104,7 @@ class PerformanceIntegrationTest {
                         .zoneType(Map.of("A", SeatType.VIP, "B", SeatType.STANDARD))
                         .typePrice(Map.of(SeatType.VIP, 140_000L, SeatType.STANDARD, 100_000L))
                         .build())
+                .artists("아티스트1,아티스트2")
                 .build();
 
         PerformanceCreateRequestDto createRequestDto_2 = PerformanceCreateRequestDto.builder()
@@ -120,10 +128,11 @@ class PerformanceIntegrationTest {
                         .zoneType(Map.of("A", SeatType.VIP, "B", SeatType.STANDARD))
                         .typePrice(Map.of(SeatType.VIP, 140_000L, SeatType.STANDARD, 100_000L))
                         .build())
+                .artists("아티스트1,아티스트2")
                 .build();
 
-        performanceService.createPerformance(createRequestDto_1);
-        performanceService.createPerformance(createRequestDto_2);
+        performanceService.createPerformance(file, createRequestDto_1);
+        performanceService.createPerformance(file, createRequestDto_2);
 
         PerformanceSearchRequestDto searchRequestDto = PerformanceSearchRequestDto.builder()
                 .keyword("테스트공연")

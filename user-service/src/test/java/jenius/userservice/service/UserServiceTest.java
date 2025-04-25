@@ -48,4 +48,27 @@ class UserServiceTest {
         Assertions.assertThat(responseDto.getUsername()).isEqualTo(username);
     }
 
+    @Test
+    @DisplayName("중복 아이디 조회")
+    void verifyLoginId() {
+
+        // given
+        String loginId = "test1234";
+        String username = "테스트";
+
+        UserCreateRequestDto createRequestDto = UserCreateRequestDto.builder()
+                .loginId(loginId)
+                .password("test1234")
+                .username(username)
+                .email("test1234@example.com")
+                .birth(LocalDate.of(2000, 7, 20))
+                .phoneNumber("010-1234-1234")
+                .build();
+
+        userService.createUser(createRequestDto);
+
+        // when & then
+        org.junit.jupiter.api.Assertions.assertFalse(userService.verifyLoginId(loginId));
+    }
+
 }

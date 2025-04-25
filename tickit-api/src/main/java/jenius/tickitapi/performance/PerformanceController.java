@@ -9,11 +9,15 @@ import jenius.performanceservice.dto.response.PerformanceSearchResponseDto;
 import jenius.performanceservice.service.PerformanceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -30,11 +34,13 @@ public class PerformanceController {
                     @ApiResponse(responseCode = "400", description = "공연 등록 실패")
             }
     )
-    @PostMapping("/api/contents/create")
-    public ResponseEntity<PerformanceCreateResponseDto> createPerformance(@RequestBody PerformanceCreateRequestDto
-                                                                          createRequestDto) {
+    @PostMapping(value = "/api/contents/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<PerformanceCreateResponseDto> createPerformance(
+            @RequestPart(value = "poster") MultipartFile multipartFile,
+            @RequestPart PerformanceCreateRequestDto
+                    createRequestDto) throws IOException {
         PerformanceCreateResponseDto createResponseDto =
-                performanceService.createPerformance(createRequestDto);
+                performanceService.createPerformance(multipartFile, createRequestDto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(createResponseDto);

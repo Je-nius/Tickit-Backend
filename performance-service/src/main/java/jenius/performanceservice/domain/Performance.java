@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @Entity
 @Getter
@@ -33,17 +34,21 @@ public class Performance {
 
     private String location;
 
-//    private String posterUrl;
+    private Long posterId;
+
+    private String artists;
 
     @Builder
     public Performance(String title, LocalDate startDate, LocalDate endDate, int runningTime,
-                       PerformanceGenre genre, String location) {
+                       PerformanceGenre genre, String location, Long posterId, String artists) {
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
         this.runningTime = runningTime;
         this.genre = genre;
         this.location = location;
+        this.posterId = posterId;
+        this.artists = artists;
         validatePerformanceDate(startDate, endDate);
     }
 

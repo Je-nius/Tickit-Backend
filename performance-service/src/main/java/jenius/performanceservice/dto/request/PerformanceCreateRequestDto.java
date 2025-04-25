@@ -44,6 +44,9 @@ public class PerformanceCreateRequestDto {
 
     private SeatCreateDto seatConfig;
 
+    @NotBlank
+    private String artists;
+
     public List<PerformanceSchedule> toEntity(Long performanceId) {
 
         return schedules.stream()

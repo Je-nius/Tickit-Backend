@@ -16,6 +16,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -35,7 +36,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
+        DefaultSecurityFilterChain build = httpSecurity
                 .httpBasic(HttpBasicConfigurer::disable)
                 .csrf(CsrfConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
@@ -46,6 +47,8 @@ public class SecurityConfig {
                         .requestMatchers("/", "/api/login", "/api/kakao/login", "/api/signup",
                                 "/api/verify/id", "/api/findid", "/api/changepw", "/v3/**")
                         .permitAll()
+                        .requestMatchers("/api/contents/create")
+                        .hasAnyRole("ROLE_ADMIN")
                         .anyRequest()
                         .authenticated()
                 )
@@ -53,6 +56,7 @@ public class SecurityConfig {
                 .addFilterBefore(new JwtAuthenticationFilter(jwtGenerator, userDetailsService),
                         UsernamePasswordAuthenticationFilter.class)
                 .build();
+        return build;
     }
 
     @Bean

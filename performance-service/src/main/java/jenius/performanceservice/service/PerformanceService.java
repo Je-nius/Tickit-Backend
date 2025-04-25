@@ -1,6 +1,7 @@
 package jenius.performanceservice.service;
 
 import jenius.common.exception.CustomException;
+import jenius.performanceservice.domain.Image;
 import jenius.performanceservice.domain.Performance;
 import jenius.performanceservice.domain.PerformanceSchedule;
 import jenius.performanceservice.dto.request.PerformanceDeleteRequestDto;
@@ -15,14 +16,15 @@ import jenius.performanceservice.repository.PerformanceRepository;
 import jenius.seatservice.service.SeatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -32,9 +34,13 @@ public class PerformanceService {
     private final PerformanceRepository performanceRepository;
     private final PerformanceScheduleRepository performanceScheduleRepository;
     private final SeatService seatService;
+    private final ImageService imageService;
 
     @Transactional
-    public PerformanceCreateResponseDto createPerformance(PerformanceCreateRequestDto createRequestDto) {
+    public PerformanceCreateResponseDto createPerformance(MultipartFile multipartFile,
+                                                          PerformanceCreateRequestDto createRequestDto) throws IOException {
+
+        Image image = imageService.createImage(multipartFile);
 
         // 공연 생성
         Performance performance = Performance.builder()
@@ -44,6 +50,8 @@ public class PerformanceService {
                 .runningTime(createRequestDto.getRunningTime())
                 .genre(createRequestDto.getGenre())
                 .location(createRequestDto.getLocation())
+                .posterId(image.getId())
+                .artists(createRequestDto.getArtists())
                 .build();
 
         Performance savedPerformance = performanceRepository.save(performance);
