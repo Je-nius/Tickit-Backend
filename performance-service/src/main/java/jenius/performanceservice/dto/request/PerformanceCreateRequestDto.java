@@ -2,6 +2,7 @@ package jenius.performanceservice.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jenius.performanceservice.domain.PerformanceGenre;
 import jenius.performanceservice.domain.PerformanceSchedule;
@@ -23,18 +24,18 @@ public class PerformanceCreateRequestDto {
     @NotBlank
     private String title;
 
-    @NotBlank
+    @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 
-    @NotBlank
+    @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
     @Positive
     private int runningTime; // 분 단위
 
-    @NotBlank
+    @NotNull
     private PerformanceGenre genre;
 
     @NotBlank

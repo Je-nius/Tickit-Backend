@@ -2,6 +2,7 @@ package jenius.tickitapi.performance;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
 import jenius.performanceservice.dto.request.PerformanceCreateRequestDto;
 import jenius.performanceservice.dto.request.PerformanceSearchRequestDto;
 import jenius.performanceservice.dto.response.PerformanceCreateResponseDto;
@@ -37,7 +38,7 @@ public class PerformanceController {
     @PostMapping(value = "/api/contents/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<PerformanceCreateResponseDto> createPerformance(
             @RequestPart(value = "poster") MultipartFile multipartFile,
-            @RequestPart PerformanceCreateRequestDto
+            @Valid @RequestPart PerformanceCreateRequestDto
                     createRequestDto) throws IOException {
         PerformanceCreateResponseDto createResponseDto =
                 performanceService.createPerformance(multipartFile, createRequestDto);
