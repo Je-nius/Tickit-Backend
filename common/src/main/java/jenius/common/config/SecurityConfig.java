@@ -48,7 +48,7 @@ public class SecurityConfig {
                                 "/api/verify/id", "/api/findid", "/api/changepw", "/v3/**")
                         .permitAll()
                         .requestMatchers("/api/contents/create")
-                        .hasAnyRole("ROLE_ADMIN")
+                        .hasAnyRole("ADMIN")
                         .anyRequest()
                         .authenticated()
                 )
