@@ -120,8 +120,15 @@ public class PerformanceService {
         List<Performance> performances =
                 performanceRepository.findByTitleOrLocation(searchRequestDto.getKeyword());
 
-        return PerformanceSearchResponseDto.fromEntity(searchRequestDto.getKeyword(),
-                performances);
+        Map<Performance, String> performancePosters = new HashMap<>();
+
+        for (Performance performance : performances) {
+            Image poster = imageService.findImageById(performance.getPosterId());
+            String posterUrl = imageService.getFileURL(poster.getSavedFileName());
+            performancePosters.put(performance, posterUrl);
+        }
+
+        return PerformanceSearchResponseDto.fromEntity(searchRequestDto.getKeyword(), performancePosters);
     }
 
     /*

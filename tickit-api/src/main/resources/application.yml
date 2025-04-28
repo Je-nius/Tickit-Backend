@@ -8,7 +8,7 @@ spring:
     password: 1234
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
@@ -21,7 +21,7 @@ jwt:
   secret-key: 9fde0a405b323d8cf7b9bc0a39e205ed320b0364d1adfba467eac36aaa8a50d9
 
 upload:
-  path: ./performance_poster
+  path: ./tickit-api/performance_poster
 
 kakao:
   api:

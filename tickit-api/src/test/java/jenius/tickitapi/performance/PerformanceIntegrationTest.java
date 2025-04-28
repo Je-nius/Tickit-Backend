@@ -146,5 +146,7 @@ class PerformanceIntegrationTest {
         Assertions.assertThat(searchResponseDto.size()).isEqualTo(2);
         Assertions.assertThat(searchResponseDto.get(0).getTitle()).isEqualTo("A테스트공연");
         Assertions.assertThat(searchResponseDto.get(1).getTitle()).isEqualTo("B테스트공연");
+        Assertions.assertThat(searchResponseDto.get(0).getPosterUrl()).isNotNull();
+        Assertions.assertThat(searchResponseDto.get(1).getPosterUrl()).isNotNull();
     }
 }

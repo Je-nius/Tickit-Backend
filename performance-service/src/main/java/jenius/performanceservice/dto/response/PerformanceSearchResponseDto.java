@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @NoArgsConstructor
@@ -20,15 +21,19 @@ public class PerformanceSearchResponseDto {
     private String location;
     private LocalDate startDate;
     private LocalDate endDate;
+    private String posterUrl;
 
-    public static List<PerformanceSearchResponseDto> fromEntity(String keyword, List<Performance> performances) {
-        return performances.stream()
+    public static List<PerformanceSearchResponseDto> fromEntity(String keyword,
+                                                                Map<Performance, String> performances) {
+
+        return performances.entrySet().stream()
                 .map(performance -> PerformanceSearchResponseDto.builder()
                         .keyword(keyword)
-                        .title(performance.getTitle())
-                        .location(performance.getLocation())
-                        .startDate(performance.getStartDate())
-                        .endDate(performance.getEndDate())
+                        .title(performance.getKey().getTitle())
+                        .location(performance.getKey().getLocation())
+                        .startDate(performance.getKey().getStartDate())
+                        .endDate(performance.getKey().getEndDate())
+                        .posterUrl(performance.getValue())
                         .build())
                 .toList();
     }

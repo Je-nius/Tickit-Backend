@@ -1,13 +1,14 @@
 package jenius.performanceservice.service;
 
+import jenius.common.exception.CustomException;
 import jenius.performanceservice.domain.Image;
+import jenius.performanceservice.exception.ImageErrorCode;
 import jenius.performanceservice.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,6 +26,7 @@ public class ImageService {
     public Image createImage(MultipartFile multipartFile) throws IOException {
         String originalFilename = multipartFile.getOriginalFilename();
         String saveFileName = createSaveFileName(originalFilename);
+
         Path dirPath = Paths.get(uploadPath);
         if (Files.notExists(dirPath)) {
             Files.createDirectories(dirPath);
@@ -54,10 +56,14 @@ public class ImageService {
         return originalFilename.substring(pos + 1);
     }
 
-    // fullPath 만들기
-    private String getFullPath(String filename) {
+    // image url
+    public String getFileURL(String filename) {
         return uploadPath + filename;
     }
 
+    public Image findImageById(Long imageId) {
+        return imageRepository.findById(imageId)
+                .orElseThrow(() -> new CustomException(ImageErrorCode.NOT_FOUND_IMAGE));
+    }
 
 }

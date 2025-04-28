@@ -13,7 +13,7 @@ public interface PerformanceRepository extends JpaRepository<Performance, Long> 
 
     @Query("SELECT p " +
             "FROM Performance p " +
-            "WHERE p.title LIKE CONCAT('%', :keyword, '%') OR p.location LIKE CONCAT('%', :keyword, '%')")
+            "WHERE LOWER(p.title) LIKE CONCAT('%', :keyword, '%') OR LOWER(p.location) LIKE CONCAT('%', :keyword, '%')")
     List<Performance> findByTitleOrLocation(@Param(value = "keyword") String keyword);
 
 
