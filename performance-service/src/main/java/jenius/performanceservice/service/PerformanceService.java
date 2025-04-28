@@ -1,14 +1,12 @@
 package jenius.performanceservice.service;
 
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import jenius.common.exception.CustomException;
-import jenius.performanceservice.domain.Image;
-import jenius.performanceservice.domain.Performance;
-import jenius.performanceservice.domain.PerformanceSchedule;
-import jenius.performanceservice.dto.request.PerformanceDeleteRequestDto;
-import jenius.performanceservice.dto.request.PerformanceScheduleDto;
-import jenius.performanceservice.dto.request.PerformanceSearchRequestDto;
+import jenius.performanceservice.domain.*;
+import jenius.performanceservice.dto.request.*;
+import jenius.performanceservice.dto.response.PerformanceGenreSearchResponseDto;
 import jenius.performanceservice.dto.response.PerformanceSearchResponseDto;
-import jenius.performanceservice.dto.request.PerformanceCreateRequestDto;
 import jenius.performanceservice.dto.response.PerformanceCreateResponseDto;
 import jenius.performanceservice.exception.PerformanceErrorCode;
 import jenius.performanceservice.repository.PerformanceScheduleRepository;
@@ -118,8 +116,25 @@ public class PerformanceService {
     public List<PerformanceSearchResponseDto> searchPerformances(PerformanceSearchRequestDto searchRequestDto) {
 
         List<Performance> performances =
-                performanceRepository.findByTitleOrLocation(searchRequestDto.getKeyword());
+                performanceRepository.findPerformance(searchRequestDto.getKeyword());
 
+        Map<Performance, String> performancePosters = getPerformancePosters(performances);
+
+        return PerformanceSearchResponseDto.fromEntity(searchRequestDto.getKeyword(), performancePosters);
+    }
+
+    public List<PerformanceGenreSearchResponseDto> searchPerformancesByGenre(PerformanceGenreSearchRequestDto
+                                                                                genreSearchRequestDto) {
+
+        List<Performance> performances =
+                performanceRepository.findPerformanceByGenre(genreSearchRequestDto.getGenre());
+
+        Map<Performance, String> performancePosters = getPerformancePosters(performances);
+
+        return PerformanceGenreSearchResponseDto.fromEntity(genreSearchRequestDto.getGenre(), performancePosters);
+    }
+
+    private Map<Performance, String> getPerformancePosters(List<Performance> performances) {
         Map<Performance, String> performancePosters = new HashMap<>();
 
         for (Performance performance : performances) {
@@ -127,8 +142,7 @@ public class PerformanceService {
             String posterUrl = imageService.getFileURL(poster.getSavedFileName());
             performancePosters.put(performance, posterUrl);
         }
-
-        return PerformanceSearchResponseDto.fromEntity(searchRequestDto.getKeyword(), performancePosters);
+        return performancePosters;
     }
 
     /*

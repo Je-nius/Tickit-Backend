@@ -1,10 +1,13 @@
 package jenius.tickitapi.performance;
 
+import jenius.performanceservice.domain.Performance;
 import jenius.performanceservice.domain.PerformanceGenre;
 import jenius.performanceservice.dto.request.PerformanceCreateRequestDto;
+import jenius.performanceservice.dto.request.PerformanceGenreSearchRequestDto;
 import jenius.performanceservice.dto.request.PerformanceScheduleDto;
 import jenius.performanceservice.dto.request.PerformanceSearchRequestDto;
 import jenius.performanceservice.dto.response.PerformanceCreateResponseDto;
+import jenius.performanceservice.dto.response.PerformanceGenreSearchResponseDto;
 import jenius.performanceservice.dto.response.PerformanceSearchResponseDto;
 import jenius.performanceservice.service.PerformanceService;
 import jenius.seatservice.domain.SeatType;
@@ -30,7 +33,7 @@ class PerformanceIntegrationTest {
 
     @Autowired
     private PerformanceService performanceService;
-    private MockMultipartFile file = new MockMultipartFile(
+    private final MockMultipartFile file = new MockMultipartFile(
             "공연 포스터 이미지",
             "poster.png",
             MediaType.IMAGE_PNG_VALUE,
@@ -80,14 +83,14 @@ class PerformanceIntegrationTest {
     }
 
     @Test
-    @DisplayName("공연을 조회할 수 있다.")
+    @DisplayName("공연 조회")
     void findPerformance() throws IOException {
         // given
         PerformanceCreateRequestDto createRequestDto_1 = PerformanceCreateRequestDto.builder()
                 .title("A테스트공연")
                 .startDate(LocalDate.of(2025, 4, 2))
                 .endDate(LocalDate.of(2025, 4, 3))
-                .genre(PerformanceGenre.CONCERT)
+                .genre(PerformanceGenre.FESTIVAL)
                 .location("AB홀")
                 .schedules(List.of(
                         PerformanceScheduleDto.builder()
@@ -128,25 +131,42 @@ class PerformanceIntegrationTest {
                         .zoneType(Map.of("A", SeatType.VIP, "B", SeatType.STANDARD))
                         .typePrice(Map.of(SeatType.VIP, 140_000L, SeatType.STANDARD, 100_000L))
                         .build())
-                .artists("아티스트1,아티스트2")
+                .artists("아티스트2,아티스트3")
                 .build();
 
         performanceService.createPerformance(file, createRequestDto_1);
         performanceService.createPerformance(file, createRequestDto_2);
 
-        PerformanceSearchRequestDto searchRequestDto = PerformanceSearchRequestDto.builder()
+        PerformanceSearchRequestDto searchRequestDto1 = PerformanceSearchRequestDto.builder()
                 .keyword("테스트공연")
+                .build();
+        PerformanceSearchRequestDto searchRequestDto2 = PerformanceSearchRequestDto.builder()
+                .keyword("AB홀")
+                .build();
+        PerformanceSearchRequestDto searchRequestDto3 = PerformanceSearchRequestDto.builder()
+                .keyword("아티스트2")
+                .build();
+        PerformanceGenreSearchRequestDto searchRequestDto4 = PerformanceGenreSearchRequestDto.builder()
+                .genre(PerformanceGenre.FESTIVAL)
                 .build();
 
         // when
-        List<PerformanceSearchResponseDto> searchResponseDto =
-                performanceService.searchPerformances(searchRequestDto);
+        List<PerformanceSearchResponseDto> searchResponseDtoByTitle =
+                performanceService.searchPerformances(searchRequestDto1);
+        List<PerformanceSearchResponseDto> searchResponseDtoByLocation =
+                performanceService.searchPerformances(searchRequestDto2);
+        List<PerformanceSearchResponseDto> searchResponseDtoByArtist =
+                performanceService.searchPerformances(searchRequestDto3);
+        
+        List<PerformanceGenreSearchResponseDto> searchResponseDtoByGenre =
+                performanceService.searchPerformancesByGenre(searchRequestDto4);
 
         // then
-        Assertions.assertThat(searchResponseDto.size()).isEqualTo(2);
-        Assertions.assertThat(searchResponseDto.get(0).getTitle()).isEqualTo("A테스트공연");
-        Assertions.assertThat(searchResponseDto.get(1).getTitle()).isEqualTo("B테스트공연");
-        Assertions.assertThat(searchResponseDto.get(0).getPosterUrl()).isNotNull();
-        Assertions.assertThat(searchResponseDto.get(1).getPosterUrl()).isNotNull();
+        Assertions.assertThat(searchResponseDtoByTitle.size()).isEqualTo(2);
+        Assertions.assertThat(searchResponseDtoByTitle).extracting(PerformanceSearchResponseDto::getTitle)
+                .contains("A테스트공연", "B테스트공연");
+        Assertions.assertThat(searchResponseDtoByLocation.size()).isEqualTo(2);
+        Assertions.assertThat(searchResponseDtoByArtist.size()).isEqualTo(2);
+        Assertions.assertThat(searchResponseDtoByGenre.size()).isEqualTo(1);
     }
 }

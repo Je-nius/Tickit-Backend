@@ -36,3 +36,11 @@ subprojects {
         annotationProcessor 'org.projectlombok:lombok'
     }
 }
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = false
+}

@@ -4,8 +4,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import jenius.performanceservice.dto.request.PerformanceCreateRequestDto;
+import jenius.performanceservice.dto.request.PerformanceGenreSearchRequestDto;
 import jenius.performanceservice.dto.request.PerformanceSearchRequestDto;
 import jenius.performanceservice.dto.response.PerformanceCreateResponseDto;
+import jenius.performanceservice.dto.response.PerformanceGenreSearchResponseDto;
 import jenius.performanceservice.dto.response.PerformanceSearchResponseDto;
 import jenius.performanceservice.service.PerformanceService;
 import lombok.RequiredArgsConstructor;
@@ -55,6 +57,16 @@ public class PerformanceController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(searchResponseDtos);
+    }
+
+    @PostMapping("/api/contents/search/genre")
+    public ResponseEntity<List<PerformanceGenreSearchResponseDto>> searchPerformance(@RequestBody PerformanceGenreSearchRequestDto
+                                                                                        genreSearchRequestDto) {
+        List<PerformanceGenreSearchResponseDto> performanceGenreSearchResponseDto =
+                performanceService.searchPerformancesByGenre(genreSearchRequestDto);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(performanceGenreSearchResponseDto);
     }
 
 

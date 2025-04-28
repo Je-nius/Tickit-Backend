@@ -11,7 +11,7 @@ public class QueueService {
     private final RedisTemplate<String, String> redisTemplate;
 
     // 대기열 추가
-    public void addQueue()
+//    public void addQueue()
 
     // 대기 순번 확인
 
@@ -22,8 +22,8 @@ public class QueueService {
     // 대기열 제거
 
 
-    private String createEnterToken() {
-
-    }
+//    private String createEnterToken() {
+//
+//    }
 
 }
