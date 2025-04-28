@@ -20,7 +20,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String loginId) throws UsernameNotFoundException {
         User user = userRepository.findByLoginId(loginId)
-                .orElseThrow(() -> new CustomException(UserErrorCode.NOT_FOUND_USER_BY_LOGIN_ID));
+                .orElseThrow(() -> new UsernameNotFoundException("아이디를 찾을 수 없습니다."));
 
         return new CustomUserDetails(user);
     }
