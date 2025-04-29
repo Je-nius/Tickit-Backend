@@ -1,6 +1,5 @@
 package jenius.tickitapi.performance;
 
-import jenius.performanceservice.domain.Performance;
 import jenius.performanceservice.domain.PerformanceGenre;
 import jenius.performanceservice.dto.request.PerformanceCreateRequestDto;
 import jenius.performanceservice.dto.request.PerformanceGenreSearchRequestDto;
@@ -11,7 +10,7 @@ import jenius.performanceservice.dto.response.PerformanceGenreSearchResponseDto;
 import jenius.performanceservice.dto.response.PerformanceSearchResponseDto;
 import jenius.performanceservice.service.PerformanceService;
 import jenius.seatservice.domain.SeatType;
-import jenius.seatservice.dto.SeatCreateDto;
+import jenius.seatservice.dto.request.SeatCreateDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

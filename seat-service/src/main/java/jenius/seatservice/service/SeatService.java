@@ -3,7 +3,8 @@ package jenius.seatservice.service;
 import jenius.common.exception.CustomException;
 import jenius.seatservice.domain.Seat;
 import jenius.seatservice.domain.SeatType;
-import jenius.seatservice.dto.SeatCreateDto;
+import jenius.seatservice.dto.request.SeatCreateDto;
+import jenius.seatservice.dto.request.SeatSearchDto;
 import jenius.seatservice.exception.SeatErrorCode;
 import jenius.seatservice.repository.SeatRepository;
 import lombok.RequiredArgsConstructor;
@@ -38,8 +39,10 @@ public class SeatService {
             for (int i = 1; i <= zoneSeatCnt; i++) {
                 Seat seat = Seat.builder()
                         .performanceScheduleId(performanceScheduleId)
-                        .seatNumber(zoneType.toString() + i)
+                        .zone(zone)
+                        .seatNumber(zone + i)
                         .seatType(zoneType)
+                        .remainingSeats(zoneSeatCnt)
                         .price(zonePrice)
                         .build();
 
@@ -65,6 +68,10 @@ public class SeatService {
     public Seat findFirstAvailableSeat(Long performanceScheduleId, SeatType seatType) {
         return seatRepository.findFirstByPerformanceScheduleIdAndSeatType(performanceScheduleId, seatType)
                 .orElseThrow(() -> checkSeatExistence(performanceScheduleId));
+    }
+
+    public List<SeatSearchDto> findSeatByPerformanceScheduleId(Long performanceScheduleId) {
+        return seatRepository.findByPerformanceScheduleId(performanceScheduleId);
     }
 
     /**

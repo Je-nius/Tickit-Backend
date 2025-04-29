@@ -4,9 +4,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import jenius.performanceservice.dto.request.PerformanceCreateRequestDto;
+import jenius.performanceservice.dto.request.PerformanceDetailRequestDto;
 import jenius.performanceservice.dto.request.PerformanceGenreSearchRequestDto;
 import jenius.performanceservice.dto.request.PerformanceSearchRequestDto;
 import jenius.performanceservice.dto.response.PerformanceCreateResponseDto;
+import jenius.performanceservice.dto.response.PerformanceDetailResponseDto;
 import jenius.performanceservice.dto.response.PerformanceGenreSearchResponseDto;
 import jenius.performanceservice.dto.response.PerformanceSearchResponseDto;
 import jenius.performanceservice.service.PerformanceService;
@@ -67,6 +69,16 @@ public class PerformanceController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(performanceGenreSearchResponseDto);
+    }
+
+    @PostMapping("/api/contents/detail")
+    public ResponseEntity<PerformanceDetailResponseDto> detailPerformance(@RequestBody PerformanceDetailRequestDto
+                                                                                             detailRequestDto) {
+        PerformanceDetailResponseDto performanceDetailResponseDto =
+                performanceService.detailPerformance(detailRequestDto);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(performanceDetailResponseDto);
     }
 
 

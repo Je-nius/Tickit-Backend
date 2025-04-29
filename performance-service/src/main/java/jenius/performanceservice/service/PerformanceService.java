@@ -1,25 +1,21 @@
 package jenius.performanceservice.service;
 
-import com.querydsl.core.BooleanBuilder;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import jenius.common.exception.CustomException;
 import jenius.performanceservice.domain.*;
 import jenius.performanceservice.dto.request.*;
-import jenius.performanceservice.dto.response.PerformanceGenreSearchResponseDto;
-import jenius.performanceservice.dto.response.PerformanceSearchResponseDto;
-import jenius.performanceservice.dto.response.PerformanceCreateResponseDto;
+import jenius.performanceservice.dto.response.*;
 import jenius.performanceservice.exception.PerformanceErrorCode;
 import jenius.performanceservice.repository.PerformanceScheduleRepository;
 import jenius.performanceservice.repository.PerformanceRepository;
+import jenius.seatservice.domain.Seat;
+import jenius.seatservice.dto.request.SeatSearchDto;
 import jenius.seatservice.service.SeatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
@@ -124,7 +120,7 @@ public class PerformanceService {
     }
 
     public List<PerformanceGenreSearchResponseDto> searchPerformancesByGenre(PerformanceGenreSearchRequestDto
-                                                                                genreSearchRequestDto) {
+                                                                                     genreSearchRequestDto) {
 
         List<Performance> performances =
                 performanceRepository.findPerformanceByGenre(genreSearchRequestDto.getGenre());
@@ -145,13 +141,43 @@ public class PerformanceService {
         return performancePosters;
     }
 
-    /*
-    public PerformanceUpdateResponseDto updatePerformance(PerformanceUpdateRequestDto updateRequestDto) {
+    public PerformanceDetailResponseDto detailPerformance(PerformanceDetailRequestDto
+                                                                  detailRequestDto) {
 
+        Performance performance = performanceRepository.findById(detailRequestDto.getPerformanceId())
+                .orElseThrow(() -> new CustomException(PerformanceErrorCode.NOT_FOUND_PERFORMANCE));
 
+        List<PerformanceSchedule> performanceSchedules = performanceScheduleRepository
+                .findAllByPerformanceId(performance.getId());
 
+        // schedule 정보와 seat 정보
+        List<ScheduleWithSeatsDto> scheduleWithSeatsDtos = new ArrayList<>();
+        for (PerformanceSchedule performanceSchedule : performanceSchedules) {
+            PerformanceScheduleDto scheduleDto =
+                    PerformanceScheduleDto.fromEntity(performanceSchedule);
+            List<SeatSearchDto> seatSearchDtos =
+                    seatService.findSeatByPerformanceScheduleId(performanceSchedule.getPerformanceId());
+            scheduleWithSeatsDtos.add(
+                    new ScheduleWithSeatsDto(scheduleDto, seatSearchDtos)
+            );
+        }
+
+        String savedFileName = imageService.findImageById(performance.getPosterId())
+                .getSavedFileName();
+        String posterURL = imageService.getFileURL(savedFileName);
+
+        return PerformanceDetailResponseDto.builder()
+                .posterUrl(posterURL)
+                .title(performance.getTitle())
+                .startDate(performance.getStartDate())
+                .endDate(performance.getEndDate())
+                .location(performance.getLocation())
+                .genre(performance.getGenre())
+                .artists(performance.getArtists())
+                .runningTime(performance.getRunningTime())
+                .scheduleWithSeatsDtos(scheduleWithSeatsDtos)
+                .build();
     }
-     */
 
     @Transactional
     public void deletePerformance(PerformanceDeleteRequestDto deleteRequestDto) {

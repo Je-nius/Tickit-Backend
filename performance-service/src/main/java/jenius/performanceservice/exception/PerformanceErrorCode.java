@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 public enum PerformanceErrorCode implements ErrorCode {
 
     NOT_FOUND_PERFORMANCE(HttpStatus.NOT_FOUND, "존재하지 않는 공연입니다."),
+    NOT_FOUND_PERFORMANCE_AT_PERFORMANCE_SCHEDULE(HttpStatus.NOT_FOUND, "공연일정에 맞는 공연이 존재하지 않습니다."),
     NOT_FOUND_PERFORMANCE_SCHEDULE(HttpStatus.NOT_FOUND, "존재하지 않는 공연 일정입니다."),
     FULL_SEAT_EXCEPTION(HttpStatus.CONFLICT, "잔여 좌석이 없습니다."),
     INVALID_PERFORMANCE_SEAT(HttpStatus.BAD_REQUEST, "좌석 수는 0 이상이어야 합니다."),

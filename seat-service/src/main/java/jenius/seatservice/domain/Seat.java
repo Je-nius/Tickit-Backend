@@ -18,20 +18,27 @@ public class Seat {
 
     private Long performanceScheduleId;
 
-    private String seatNumber;
+    private String zone; // 구역
+
+    private String seatNumber; // 좌석 번호
 
     @Enumerated(value = EnumType.STRING)
-    private SeatType seatType;
+    private SeatType seatType; // 좌석 유형
 
-    private Long price;
+    private Long price; // 가격
+
+    private int remainingSeats; // 잔여 좌석 수
 
     private boolean isReserved;
 
     @Builder
-    public Seat(Long performanceScheduleId, String seatNumber, SeatType seatType, Long price) {
+    public Seat(Long performanceScheduleId, String zone, String seatNumber, SeatType seatType,
+                int remainingSeats, Long price) {
         this.performanceScheduleId = performanceScheduleId;
+        this.zone = zone;
         this.seatNumber = seatNumber;
         this.seatType = seatType;
+        this.remainingSeats = remainingSeats;
         this.price = price;
         this.isReserved = false;
     }

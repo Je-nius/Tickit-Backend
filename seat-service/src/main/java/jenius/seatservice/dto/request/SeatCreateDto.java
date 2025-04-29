@@ -1,4 +1,4 @@
-package jenius.seatservice.dto;
+package jenius.seatservice.dto.request;
 
 import jenius.seatservice.domain.SeatType;
 import lombok.*;

@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jenius.performanceservice.domain.PerformanceGenre;
 import jenius.performanceservice.domain.PerformanceSchedule;
-import jenius.seatservice.dto.SeatCreateDto;
+import jenius.seatservice.dto.request.SeatCreateDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
