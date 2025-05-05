@@ -45,7 +45,7 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/", "/api/login", "/api/kakao/login", "/api/signup",
-                                "/api/verify/id", "/api/findid", "/api/changepw", "/v3/**")
+                                "/api/verify/id", "/api/findid", "/api/changepw", "/v3/**", "/performance_poster/**")
                         .permitAll()
                         .requestMatchers("/api/contents/create")
                         .hasAnyRole("ADMIN")
