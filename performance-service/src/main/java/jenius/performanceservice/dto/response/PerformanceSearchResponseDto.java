@@ -17,6 +17,7 @@ import java.util.Map;
 public class PerformanceSearchResponseDto {
 
     private String keyword;
+    private Long performanceId;
     private String title;
     private String location;
     private LocalDate startDate;
@@ -29,6 +30,7 @@ public class PerformanceSearchResponseDto {
         return performances.entrySet().stream()
                 .map(performance -> PerformanceSearchResponseDto.builder()
                         .keyword(keyword)
+                        .performanceId(performance.getKey().getId())
                         .title(performance.getKey().getTitle())
                         .location(performance.getKey().getLocation())
                         .startDate(performance.getKey().getStartDate())
