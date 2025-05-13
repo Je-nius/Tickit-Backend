@@ -30,5 +30,5 @@ kakao:
     key: "DEV9C84DDEF4431A52CE884EDB0EE8F9CEA33B86"
     cid: TC0ONETIME
     approval-url: http://localhost:8080/api/pay/approve
-    cancel-url: http://localhost:8080/cancel
-    fail-url: http://localhost:8080/fail
+    cancel-url: http://localhost:8080/api/pay/cancel
+    fail-url: http://localhost:8080/api/pay/fail

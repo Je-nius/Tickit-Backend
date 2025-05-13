@@ -24,7 +24,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
-import java.util.List;
 
 @Configuration
 @RequiredArgsConstructor
@@ -45,7 +44,8 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/", "/api/login", "/api/kakao/login", "/api/signup",
-                                "/api/verify/id", "/api/findid", "/api/changepw", "/v3/**", "/performance_poster/**")
+                                "/api/verify/id", "/api/findid", "/api/changepw", "/v3/**", "/performance_poster/**",
+                                "/api/pay/approve", "/api/pay/cancel", "/api/pay/fail")
                         .permitAll()
                         .requestMatchers("/api/contents/create")
                         .hasAnyRole("ADMIN")
