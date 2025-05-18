@@ -51,16 +51,19 @@ class ReservationServiceTest {
     public void createReservation() {
         // given
         Long userId = 1L;
+        Long performanceId = 1L;
         Long performanceScheduleId = 1L;
         int quantity = 2;
         String performanceTitle = "뮤지컬 테스트";
         String reservationNumber = "T1234567890";
         LocalDate startDate = LocalDate.of(2025, 4, 2);
         LocalDate endDate = LocalDate.of(2025, 4, 3);
+        LocalDate reservationDate = LocalDate.of(2025, 4, 2);
 
         ReservationCreateRequestDto reservationCreateRequestDto =
                 ReservationCreateRequestDto.builder()
-                        .performanceScheduleId(performanceScheduleId)
+                        .performanceId(performanceId)
+                        .performanceDate(reservationDate)
                         .seatType(SeatType.VIP)
                         .quantity(quantity)
                         .build();
@@ -81,7 +84,8 @@ class ReservationServiceTest {
         when(performanceService.findPerformanceByScheduleId(performanceScheduleId))
                 .thenReturn(mockPerformance);
 
-        when(createReservationService.createReservationAndTicket(anyLong(), any(ReservationCreateRequestDto.class)))
+        when(createReservationService.createReservationAndTicket(anyLong(), performanceScheduleId,
+                any(ReservationCreateRequestDto.class)))
                 .thenReturn(mockReservation);
 
         when(kakaoPayService.readyForKakaPay(any(KakaoPayReadyRequestDto.class)))

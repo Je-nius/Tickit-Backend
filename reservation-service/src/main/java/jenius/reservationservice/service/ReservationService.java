@@ -4,6 +4,8 @@ import jenius.common.exception.CustomException;
 import jenius.payservice.dto.request.KakaoPayReadyRequestDto;
 import jenius.payservice.service.KakaoPayService;
 import jenius.performanceservice.domain.Performance;
+import jenius.performanceservice.domain.PerformanceSchedule;
+import jenius.performanceservice.service.PerformanceScheduleService;
 import jenius.performanceservice.service.PerformanceService;
 import jenius.reservationservice.domain.Reservation;
 import jenius.reservationservice.domain.ReservationStatus;
@@ -22,6 +24,7 @@ public class ReservationService {
 
     private final ReservationRepository reservationRepository;
     private final PerformanceService performanceService;
+    private final PerformanceScheduleService performanceScheduleService;
     private final CreateReservationService createReservationService;
     private final KakaoPayService kakaoPayService;
 
@@ -30,15 +33,17 @@ public class ReservationService {
             Long userId, ReservationCreateRequestDto reservationCreateRequestDto
     ) {
 
-        // 공연 이름 가져오기
+        // 공연 이름 가져오기 & 공연 스케줄 id 가져오기
         Performance performance =
-                performanceService.findPerformanceByScheduleId(reservationCreateRequestDto.getPerformanceScheduleId());
+                performanceService.findPerformanceById(reservationCreateRequestDto.getPerformanceId());
         String performanceTitle = performance.getTitle();
+        PerformanceSchedule performanceSchedule = performanceScheduleService.findByPerformanceIdAndPerformanceDate(performance.getId(),
+                reservationCreateRequestDto.getPerformanceDate());
 
         // 예매 및 티켓 생성
         Reservation reservation =
-                createReservationService.createReservationAndTicket(userId, reservationCreateRequestDto);
-
+                createReservationService.createReservationAndTicket(userId, performanceSchedule.getId(),
+                        reservationCreateRequestDto);
         reservation.pending();
 
         // 결제 요청 (KAKAO_PAY)

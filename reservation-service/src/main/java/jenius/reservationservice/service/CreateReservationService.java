@@ -23,6 +23,7 @@ public class CreateReservationService {
 
     @Transactional
     public Reservation createReservationAndTicket(Long userId,
+                                                  Long performanceScheduleId,
                                                   ReservationCreateRequestDto reservationCreateRequestDto) {
         // 예매 번호 생성
         String reservationNumber = generateUniqueReservationNumber();
@@ -30,7 +31,7 @@ public class CreateReservationService {
         // 예매 생성
         Reservation reservation = Reservation.builder()
                 .userId(userId)
-                .performanceScheduleId(reservationCreateRequestDto.getPerformanceScheduleId())
+                .performanceScheduleId(performanceScheduleId)
                 .reservationNumber(reservationNumber)
                 .quantity(reservationCreateRequestDto.getQuantity())
                 .build();
@@ -38,7 +39,7 @@ public class CreateReservationService {
         Reservation savedReservation = reservationRepository.save(reservation);
 
         // quantity 만큼 ticket 생성
-        List<Ticket> tickets = ticketService.createTickets(reservationCreateRequestDto.getPerformanceScheduleId(),
+        List<Ticket> tickets = ticketService.createTickets(performanceScheduleId,
                 reservationCreateRequestDto.getSeatType(),
                 savedReservation.getId(),
                 reservationCreateRequestDto.getQuantity());
