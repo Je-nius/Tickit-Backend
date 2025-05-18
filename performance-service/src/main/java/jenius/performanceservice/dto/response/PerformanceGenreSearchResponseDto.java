@@ -17,6 +17,7 @@ import java.util.Map;
 @Builder
 public class PerformanceGenreSearchResponseDto {
 
+    private Long performanceId;
     private PerformanceGenre genre;
     private String title;
     private String location;
@@ -29,6 +30,7 @@ public class PerformanceGenreSearchResponseDto {
 
         return performances.entrySet().stream()
                 .map(performance -> PerformanceGenreSearchResponseDto.builder()
+                        .performanceId(performance.getKey().getId())
                         .genre(genre)
                         .title(performance.getKey().getTitle())
                         .location(performance.getKey().getLocation())
