@@ -22,7 +22,7 @@ public class PayController {
 
     @GetMapping("/api/pay/approve")
     public ResponseEntity<KakaoPayApproveResponseDto> approveForKakaoPay(@RequestParam(name = "order_id") String orderId,
-                                                                         @RequestParam(name = "user_id") Long userId,
+                                                                         @RequestParam(name = "user_id") String userId,
                                                                          @RequestParam(name = "pg_token") String pgToken) {
         return ResponseEntity.ok()
                 .body(kakaoPayService.approveForKakaoPay(pgToken, orderId, userId));

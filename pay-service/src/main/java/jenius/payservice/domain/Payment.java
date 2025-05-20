@@ -15,7 +15,7 @@ public class Payment {
     @Id
     private String tid;
     private String orderId;
-    private Long userId;
+    private String userId;
     @Enumerated(EnumType.STRING)
     private PaymentStatus status;
 

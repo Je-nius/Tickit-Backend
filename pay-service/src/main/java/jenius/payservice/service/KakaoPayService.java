@@ -79,7 +79,7 @@ public class KakaoPayService {
         }
     }
 
-    public KakaoPayApproveResponseDto approveForKakaoPay(String pgToken, String orderId, Long userId) {
+    public KakaoPayApproveResponseDto approveForKakaoPay(String pgToken, String orderId, String userId) {
         Payment findPayment = paymentRepository.findByOrderIdAndUserIdAndStatus(orderId, userId, PaymentStatus.READY)
                 .orElseThrow(() -> new CustomException(PaymentErrorCode.NOT_EXIST_PAY_INFORMATION));
 

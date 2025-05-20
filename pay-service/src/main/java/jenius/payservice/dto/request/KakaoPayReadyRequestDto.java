@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class KakaoPayReadyRequestDto {
     private String orderId;
-    private Long userId;
+    private String userId;
     private String itemName;
     private Integer quantity;
     private Long totalAmount;
