@@ -1,6 +1,7 @@
 package jenius.tickitapi.reservation;
 
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import jenius.reservationservice.dto.request.ReservationCreateRequestDto;
 import jenius.reservationservice.dto.request.ReservationRequestDto;
 import jenius.reservationservice.dto.response.ReservationCreateResponseDto;
@@ -33,7 +34,7 @@ public class ReservationController {
             description = "예매 완료 후 보여지는 예매 내역 페이지"
     )
     @PostMapping("/ticket/reservations")
-    public ResponseEntity<ReservationCreateResponseDto> reserve(@RequestBody ReservationCreateRequestDto createRequestDto) {
+    public ResponseEntity<ReservationCreateResponseDto> reserve(@RequestBody @Valid ReservationCreateRequestDto createRequestDto) {
         // TODO: userId 받아오기
         Long userId = 1L;
         return ResponseEntity.ok()

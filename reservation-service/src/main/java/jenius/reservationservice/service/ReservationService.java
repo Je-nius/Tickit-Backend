@@ -15,6 +15,7 @@ import jenius.reservationservice.dto.response.ReservationCancelResponseDto;
 import jenius.reservationservice.dto.response.ReservationCreateResponseDto;
 import jenius.reservationservice.exception.ReservationErrorCode;
 import jenius.reservationservice.repository.ReservationRepository;
+import jenius.seatservice.dto.request.SeatInfoDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -46,12 +47,18 @@ public class ReservationService {
                         reservationCreateRequestDto);
         reservation.pending();
 
+        // 티켓 총 매수
+        int totalQuantity = reservationCreateRequestDto.getSeatInfos()
+                .stream()
+                .map(SeatInfoDto::getQuantity)
+                .reduce(0, Integer::sum);
+
         // 결제 요청 (KAKAO_PAY)
         KakaoPayReadyRequestDto readyRequestDto = KakaoPayReadyRequestDto.builder()
                 .orderId(reservation.getReservationNumber())
                 .userId(userId)
                 .itemName(performanceTitle)
-                .quantity(reservationCreateRequestDto.getQuantity())
+                .quantity(totalQuantity)
                 .totalAmount(reservation.getTotalAmount())
                 .build();
 
