@@ -14,7 +14,7 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long userId;
+    private String userId;
 
     private Long performanceScheduleId;
 
@@ -32,7 +32,7 @@ public class Reservation {
     private Integer quantity;
 
     @Builder
-    public Reservation(Long userId, Long performanceScheduleId, String reservationNumber, ReservationStatus status,
+    public Reservation(String userId, Long performanceScheduleId, String reservationNumber, ReservationStatus status,
                        LocalDateTime reservationDate, Long totalAmount, Integer quantity) {
         this.userId = userId;
         this.performanceScheduleId = performanceScheduleId;

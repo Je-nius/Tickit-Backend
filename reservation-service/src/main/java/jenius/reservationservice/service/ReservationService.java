@@ -31,7 +31,7 @@ public class ReservationService {
 
 
     public ReservationCreateResponseDto reserve(
-            Long userId, ReservationCreateRequestDto reservationCreateRequestDto
+            String userId, ReservationCreateRequestDto reservationCreateRequestDto
     ) {
 
         // 공연 이름 가져오기 & 공연 스케줄 id 가져오기

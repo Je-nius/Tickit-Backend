@@ -23,7 +23,7 @@ public class CreateReservationService {
     private final TicketService ticketService;
 
     @Transactional
-    public Reservation createReservationAndTicket(Long userId,
+    public Reservation createReservationAndTicket(String userId,
                                                   Long performanceScheduleId,
                                                   ReservationCreateRequestDto reservationCreateRequestDto) {
         // 예매 번호 생성
