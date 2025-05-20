@@ -5,6 +5,7 @@ import jenius.reservationservice.domain.Reservation;
 import jenius.reservationservice.dto.request.ReservationCreateRequestDto;
 import jenius.reservationservice.exception.ReservationErrorCode;
 import jenius.reservationservice.repository.ReservationRepository;
+import jenius.seatservice.dto.request.SeatInfoDto;
 import jenius.ticketservice.domain.Ticket;
 import jenius.ticketservice.service.TicketService;
 import lombok.RequiredArgsConstructor;
@@ -28,29 +29,36 @@ public class CreateReservationService {
         // 예매 번호 생성
         String reservationNumber = generateUniqueReservationNumber();
 
+        // 티켓 총 매수
+        int totalQuantity = reservationCreateRequestDto.getSeatInfos()
+                .stream()
+                .map(SeatInfoDto::getQuantity)
+                .reduce(0, Integer::sum);
+
         // 예매 생성
         Reservation reservation = Reservation.builder()
                 .userId(userId)
                 .performanceScheduleId(performanceScheduleId)
                 .reservationNumber(reservationNumber)
-                .quantity(reservationCreateRequestDto.getQuantity())
+                .quantity(totalQuantity)
+                .totalAmount(reservationCreateRequestDto.getTotalAmount())
                 .build();
 
         Reservation savedReservation = reservationRepository.save(reservation);
 
         // quantity 만큼 ticket 생성
         List<Ticket> tickets = ticketService.createTickets(performanceScheduleId,
-                reservationCreateRequestDto.getSeatType(),
                 savedReservation.getId(),
-                reservationCreateRequestDto.getQuantity());
+                reservationCreateRequestDto.getSeatInfos());
 
         // 총 가격 계산
-        Long totalAmount = getTotalAmount(tickets);
-        savedReservation.assignTotalAmount(totalAmount);
+//        Long totalAmount = getTotalAmount(tickets);
+//        savedReservation.assignTotalAmount(totalAmount);
 
         return savedReservation;
     }
 
+/*
     private Long getTotalAmount(List<Ticket> tickets) {
         Long totalAmount = 0L;
         for (Ticket ticket : tickets) {
@@ -58,6 +66,7 @@ public class CreateReservationService {
         }
         return totalAmount;
     }
+*/
 
     private String generateUniqueReservationNumber() {
 

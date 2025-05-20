@@ -43,9 +43,9 @@ public class Reservation {
         this.quantity = quantity;
     }
 
-    public void assignTotalAmount(Long amount) {
-        this.totalAmount = amount;
-    }
+//    public void assignTotalAmount(Long amount) {
+//        this.totalAmount = amount;
+//    }
 
     public void pending() {
         this.status = ReservationStatus.PENDING;

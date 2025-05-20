@@ -25,6 +25,8 @@ public class ReservationCreateRequestDto {
     private LocalDate performanceDate;
     @NotNull @Valid
     private List<SeatInfoDto> seatInfos;
+    @NotNull
+    private Long totalAmount;
 //    @NotNull
 //    private String payType;
 
