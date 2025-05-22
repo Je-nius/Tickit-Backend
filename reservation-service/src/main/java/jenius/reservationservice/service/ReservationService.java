@@ -47,23 +47,7 @@ public class ReservationService {
                         reservationCreateRequestDto);
         reservation.pending();
 
-        // 티켓 총 매수
-        int totalQuantity = reservationCreateRequestDto.getSeatInfos()
-                .stream()
-                .map(SeatInfoDto::getQuantity)
-                .reduce(0, Integer::sum);
-
-        // 결제 요청 (KAKAO_PAY)
-        KakaoPayReadyRequestDto readyRequestDto = KakaoPayReadyRequestDto.builder()
-                .orderId(reservation.getReservationNumber())
-                .userId(userId)
-                .itemName(performanceTitle)
-                .quantity(totalQuantity)
-                .totalAmount(reservation.getTotalAmount())
-                .build();
-
         try {
-            kakaoPayService.readyForKakaPay(readyRequestDto);
             reservation.reserve();
             return ReservationCreateResponseDto.fromEntity(performanceTitle, reservation);
         } catch (CustomException e) {
@@ -72,7 +56,7 @@ public class ReservationService {
     }
 
     public ReservationCancelResponseDto cancelReservation(
-            Long userId, ReservationCancelRequestDto reservationCancelRequestDto
+            String userId, ReservationCancelRequestDto reservationCancelRequestDto
     ) {
         // TODO: 결제 서비스 추가 시, 결제 데이터 & 검증 필요
 

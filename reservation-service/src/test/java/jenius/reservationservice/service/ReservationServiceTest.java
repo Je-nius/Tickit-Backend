@@ -13,6 +13,7 @@ import jenius.reservationservice.dto.response.ReservationCancelResponseDto;
 import jenius.reservationservice.dto.response.ReservationCreateResponseDto;
 import jenius.reservationservice.repository.ReservationRepository;
 import jenius.seatservice.domain.SeatType;
+import jenius.seatservice.dto.request.SeatInfoDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,6 +23,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.*;
@@ -50,22 +52,30 @@ class ReservationServiceTest {
     @DisplayName("예매를 할 수 있다.")
     public void createReservation() {
         // given
-        Long userId = 1L;
+        String userId = "tsetId";
         Long performanceId = 1L;
         Long performanceScheduleId = 1L;
         int quantity = 2;
+        Long totalAmount = 169_000L;
         String performanceTitle = "뮤지컬 테스트";
         String reservationNumber = "T1234567890";
         LocalDate startDate = LocalDate.of(2025, 4, 2);
         LocalDate endDate = LocalDate.of(2025, 4, 3);
         LocalDate reservationDate = LocalDate.of(2025, 4, 2);
 
+        List<SeatInfoDto> seatInfoDtos = List.of(
+                SeatInfoDto.builder()
+                        .seatType(SeatType.VIP)
+                        .quantity(quantity)
+                        .build()
+        );
+
         ReservationCreateRequestDto reservationCreateRequestDto =
                 ReservationCreateRequestDto.builder()
                         .performanceId(performanceId)
                         .performanceDate(reservationDate)
-                        .seatType(SeatType.VIP)
-                        .quantity(quantity)
+                        .seatInfos(seatInfoDtos)
+                        .totalAmount(totalAmount)
                         .build();
 
         Performance mockPerformance = Performance.builder()
@@ -84,7 +94,7 @@ class ReservationServiceTest {
         when(performanceService.findPerformanceByScheduleId(performanceScheduleId))
                 .thenReturn(mockPerformance);
 
-        when(createReservationService.createReservationAndTicket(anyLong(), performanceScheduleId,
+        when(createReservationService.createReservationAndTicket(userId, anyLong(),
                 any(ReservationCreateRequestDto.class)))
                 .thenReturn(mockReservation);
 
@@ -103,7 +113,7 @@ class ReservationServiceTest {
     @DisplayName("예매를 취소할 수 있다.")
     public void cancelReservation() {
         // given
-        Long userId = 1L;
+        String userId = "tsetId";
         Long reservationId = 1L;
 
         Reservation reservation = Reservation.builder()
@@ -134,8 +144,8 @@ class ReservationServiceTest {
     @DisplayName("본인 예매가 아닌 경우 예매 취소 실패 테스트")
     public void cancelReservation_fail_notOwner() {
         // given
-        Long userId = 1L;
-        Long otherUserId = 2L;
+        String userId = "tsetId";
+        String otherUserId = "otherTestId";
         Long reservationId = 1L;
 
         Reservation reservation = Reservation.builder()
@@ -160,7 +170,7 @@ class ReservationServiceTest {
     @DisplayName("이미 취소된 예매인 경우 예매 취소 실패 테스트")
     public void cancelReservation_fail_alreadyCanceled() {
         // given
-        Long userId = 1L;
+        String userId = "tsetId";
         Long reservationId = 1L;
 
         Reservation reservation = Reservation.builder()

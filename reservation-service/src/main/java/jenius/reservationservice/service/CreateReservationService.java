@@ -47,9 +47,9 @@ public class CreateReservationService {
         Reservation savedReservation = reservationRepository.save(reservation);
 
         // quantity 만큼 ticket 생성
-        List<Ticket> tickets = ticketService.createTickets(performanceScheduleId,
-                savedReservation.getId(),
-                reservationCreateRequestDto.getSeatInfos());
+//        List<Ticket> tickets = ticketService.createTickets(performanceScheduleId,
+//                savedReservation.getId(),
+//                reservationCreateRequestDto.getSeatInfos());
 
         // 총 가격 계산
 //        Long totalAmount = getTotalAmount(tickets);
